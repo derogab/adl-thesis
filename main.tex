@@ -1,0 +1,27 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage[paper=a4paper,margin=1in]{geometry}
+\usepackage[backend=biber]{biblatex}
+\usepackage[italian]{babel}
+\usepackage{csquotes}
+
+\addbibresource{references/bibliography.bib}
+\addbibresource{references/web.bib}
+
+\begin{document}
+    
+    % frontespizio
+    \include{frontespizio}
+    % chapters
+    \include{contents/introduzione}
+    \include{contents/app}
+    \include{contents/api}
+    \include{contents/server}
+    \include{contents/classificazione}
+    \include{contents/conclusioni}
+    
+\end{document}
