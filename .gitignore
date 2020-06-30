@@ -295,3 +295,7 @@ TSWLatexianTemp*
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+### Inkscape ###
+# SVG
+svg-inkscape/

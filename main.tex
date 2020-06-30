@@ -5,9 +5,12 @@
 \usepackage[utf8]{inputenc}
 \usepackage{setspace}
 \usepackage[paper=a4paper,margin=1in]{geometry}
-\usepackage[backend=biber]{biblatex}
+\usepackage[backend=biber, backref=true, sorting=none]{biblatex}
 \usepackage[italian]{babel}
 \usepackage{csquotes}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{svg}
 
 \addbibresource{references/bibliography.bib}
 \addbibresource{references/web.bib}
@@ -16,12 +19,19 @@
     
     % frontespizio
     \include{frontespizio}
-    % chapters
+    % indice
+    \tableofcontents
+    % capitoli
     \include{contents/introduzione}
     \include{contents/app}
     \include{contents/api}
     \include{contents/server}
     \include{contents/classificazione}
     \include{contents/conclusioni}
+
+    \newpage
+    \printbibheading[heading=bibintoc, title={Riferimenti}]
+    \printbibliography[nottype=online,heading=subbibintoc,title={Bibliografia}]
+    \printbibliography[type=online,heading=subbibintoc,title={Siti}]
     
 \end{document}
