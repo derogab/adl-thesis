@@ -1,43 +1,44 @@
 \chapter{Introduzione}
 
-Il riconoscimento dell'attività umana (Human Activity Recognition, HAR) è un campo molto attivo della ricerca e molte 
-tecniche di \textit{deep learning} sviluppate negli ultimi anni hanno dimostrato di essere affidabili per la 
-classificazione delle attività di vita quotidiana (Activities of Daily Living, ADLs).
+Il riconoscimento dell'attività umana (Human Activity Recognition, HAR) è un campo molto attivo della ricerca e una
+quantità sempre maggiore di tecniche di \textit{deep learning} sviluppate negli ultimi anni ha dimostrato di essere 
+affidabile per la classificazione delle attività di vita quotidiana (Activities of Daily Living, ADLs).
+
+Un aspetto che lega la quasi totalità delle tecniche messe in campo quando si parla di HAR è sicuramente l'ottenimento delle informazioni 
+utili per le analisi. Per il riconoscimento di una attività sono indubbiamente necessari i dati ottenuti dai
+sensori di movimento posizionati sui nostri smartphone o sui sempre più comuni braccialetti ed orologi intelligenti.
 
 \section{Classificazione}
-La \textit{classificazione} è un problema statistico con l'obiettivo di ipotizzare quale tra un insieme di etichette
-meglio definisce un insieme di caratteristiche. Il tutto basandosi su un ampio insieme di corrispondenze precedentemente appreso
-di cui erano noti i risultati.
+Il riconoscimento delle attività si basa sulla \textit{classificazione}, un problema statistico che ha l'obiettivo di ipotizzare 
+quale tra un insieme di etichette meglio definisce un insieme di caratteristiche. 
 
-Un algoritmo che risolve il problema della classificazione è definito \textbf{classificatore}.
-Un classificatore è quindi un algoritmo in grado di fornire in output l'etichetta 
-che meglio identifica i dati ricevuti in input.
+La classificazione, in informatica, è un ramo dell'apprendimento supervisionato (\textit{supervised learning}),
+ovvero una branca dell'apprendimento automatico (\textit{machine learning}) che punta ad insegnare ad un sistema informatico una regola generale
+di calcolo su un certo dominio di dati in modo che successivamente sia in grado di applicare in autonomia le stesse leggi anche a dati futuri.
 
+Definiamo quindi \textbf{classificatore} un algoritmo in grado di risolvere il problema della classificazione, in grado di fornire in output 
+l'etichetta che meglio identifica i dati ricevuti in input.
 Nel caso in esame il classificatore dovrà essere in grado di ipotizzare una attività ricevendo in input un set di dati sensoriali
 raccolti dall'applicazione sviluppata.
 
-
-
-\section{L'importanza dei dati}
+\subsection{L'importanza dei dati}
 Ipotizzando che la qualità dei dati sia ottima (o almeno sufficiente), l'aspetto di cui bisogna assolutamente tener conto quando 
 si parla di apprendimento automatico è la quantità di dati che si è in grado di raccogliere. 
 L'efficienza e l'efficacia di un classificatore, in generale, si basano interamente sui valori precedentemente appresi.
 
-La necessità di un set di dati ampio per l'apprendimento è principalmente conseguenza del fatto che non viviamo in un mondo ideale.
-Le attività svolte nella vita reale non sono perfettamente suddivisibili per essere facilmente classificate e inoltre, dato che diverse persone
-possono svolgere una uguale attività in modi differenti, non si ha nemmeno una corrispondenza biunivoca tra un gruppo di dati e l'attività \cite{framework_long_term_data_har}.
+La necessità di un set di dati ampio per l'apprendimento è principalmente conseguenza del fatto che non viviamo in un mondo ideale: 
+le attività svolte nella vita reale non sono perfettamente suddivisibili per essere facilmente classificate e inoltre, dato che diverse persone
+potrebbero svolgere una uguale attività in modi differenti, non si ha nemmeno una corrispondenza biunivoca tra un insieme di dati e l'attività \cite{framework_long_term_data_har}.
 
-\subsection{Dati necessari per il riconoscimento}
-I dati su cui solitamente si basa lo sviluppo di un classificatore per il riconoscimento di una attività sono quelli forniti dai 
+\subsubsection{Dati necessari per il riconoscimento}
+È già stato anticipato che i dati su cui solitamente si basa lo sviluppo di un classificatore per il riconoscimento di una attività sono forniti dai 
 più comuni sensori di movimento.
 
 Ad essi ne possono essere aggiunti di ulteriori, come ad esempio le informazioni sulle caratteristiche fisiche
 dell'individuo o sulla posizione in cui è situato il dispositivo di raccolta.
 Quest'ultimo aspetto è troppo spesso sottovalutato \cite{umafall}.
 
-
-
-\section{Obiettivo e panoramica}
+\section{Obiettivo e panoramica del progetto}
 Lo scopo del progetto è quindi lo sviluppo di un classificatore di ADLs in grado di interagire con una applicazione
 Android.
 
