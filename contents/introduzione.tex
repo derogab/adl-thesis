@@ -37,16 +37,23 @@ Quest'ultimo aspetto è troppo spesso sottovalutato \cite{umafall}.
 
 
 
-\section{Obiettivo ed architettura}
+\section{Obiettivo e panoramica}
 Lo scopo del progetto è quindi lo sviluppo di un classificatore di ADLs in grado di interagire con una applicazione
 Android.
 
-Il classificatore sarà attivo su un server, in modo da accettare le connessioni dell'app e ricevere i dati da apprendere 
-o analizzare.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.41]{assets/images/overview.png}
+    \caption{Panoramica del progetto}
+\end{figure}
 
-L'applicazione Android avrà il compito di
-\begin{itemize}
-    \item raccogliere i dati dei principali sensori di movimento, associarli ad una attività ed inviarli al server per l'apprendimento.
-    \item raccogliere i dati dei principali sensori di movimento ed inviarli al server per l'analisi, rimanendo in attesa di una risposta.
-    \item raccogliere ulteriori dati aggiuntivi ed inviarli al server.
-\end{itemize}
+\subsubsection{Applicazione}
+L'applicazione Android ha il compito di ottenere i dati relativi ai movimenti dell'utente 
+e gestire lo scambio di tutte le informazioni raccolte con il server.
+\subsubsection{Classificatore}
+Il componente che effettuerà la classificazione, che come abbiamo detto, gestirà la mole di valori ottenuta tentando di 
+eseguire il riconoscimento vero e proprio delle attività.
+\subsubsection{Rest API}
+Sono poi state aggiunte delle API Rest utilizzate come fonte iniziale di informazioni. Vedremo essere indispensabili 
+per rendere l'intero sistema programmabile in modo dinamico, almeno per quanto riguarda tutto ciò che sarà impostabile 
+da un amministratore in fase di avvio.
