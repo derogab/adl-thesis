@@ -73,7 +73,6 @@ ma soprattutto è rilevante il messaggio contenente l'attività che è stata ipo
 \end{figure}
 
 
-
 \subsection{Sezione di apprendimento}
 Nella sezione di apprendimento è possibile avviare un processo in grado di raccogliere dei dati sensoriali associandoli ad una
 determinata attività. 
@@ -118,7 +117,6 @@ I dati raccolti dai sensori sono inviati costantemente al server. Una volta scad
 \end{figure}
 
 
-
 \subsection{Sezione per l'inserimento di dati aggiuntivi}
 Nella sezione di apprendimento è presente un modulo di inserimento dati utile per permettere all'utilizzatore di 
 inserire dati aggiuntivi relativi alla sua persona. Potenzialmente si potrebbe pensare che questi dati saranno poi utilizzabili
@@ -134,3 +132,37 @@ tramite le informazioni ottenute in fase di creazione tramite una chiamata alle 
     \label{fig:screenshots_personal}
 \end{figure}
 
+
+\subsection{Feedback sonoro}
+Oltre a quanto si vede sull'interfaccia dell'applicazione, essa fornisce un feedback sonoro mediante il sintetizzatore vocale
+del dispositivo che fornisce tutte le informazioni visualizzate sulla UI. Questa necessità dipende dal fatto che l'utilizzo potrebbe avvenire 
+dopo aver posizionato il dispositivo in modo da impedirne la visualizzazione delle informazioni (ad esempio in tasca).
+
+
+
+\section{Implementazione}
+Gli aspetti programmativi che più interessano sono indubbiamente quelli legati all'accesso alle API, alla gestione dei conti 
+alla rovescia, alle comunicazioni con il server, al feedback sonoro e alla raccolta dei dati con i principali sensori di movimento.
+
+\subsection{Accesso alle API}
+Le chiamate alle API sono fatte utilizzando la librerie Retrofit \cite{retrofit}.
+
+
+\subsection{Countdown Timers}
+Per l'implementazione dei conti alla rovescia ho implementato la classe \textit{CountDownTimer} \cite{countdown}
+offerta direttamente da Android.
+
+
+\subsection{Connessione con il server}
+Per la connessione al server è stata implementata con l'utilizzo della classe \textit{Socket} \cite{socket}.
+
+
+\subsection{Feedback sonoro}
+La sintetizzazione vocale è stata implementata con le librerie di \textit{text to speech} \cite{tts} offerte da Android.
+
+
+\subsection{Sensori di movimento}
+I sensori di movimento implementati sono accelerometro e giroscopio.
+
+
+%\section{Scambio dati con il server}
