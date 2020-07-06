@@ -1,1 +1,88 @@
 \chapter{Server}
+Il passaggio principale che ho dovuto affrontare per l'inizio del progetto è stata l'inizializzazione
+di un server che potesse gestire lo scambio di informazioni con l'applicazione ed occuparsi di svolgere tutte i compiti del caso.
+
+Il lavoro del server è facilmente scomponibile in due parti, la gestione dei dati utili per la classificazione 
+(che sarà poi affrontata nel capitolo \ref{chapter:classification}) e l'erogazione di dati informativi che vedremo consentire
+ad un amministratore l'interazione con il sistema.
+
+Si è scelto di sviluppare il tutto con il linguaggio Python e di inserire per comodità il software in due differenti contenitori Docker, in modo da 
+mantenere differenziate queste due parti anche a livello programmativo.
+
+\subsubsection{Docker}
+Docker \cite{docker} è un progetto open-source in grado di effettuare il deploy di applicazioni all'interno di contenitori software che grazie alla
+virtualizzazione si trovano ad un livello di astrazione differente dal sistema host. Questa tecnica è molto utile quando si ha vuole
+mantenere separati l'installazione di un'applicativo dal sistema ospitante.
+
+
+
+\section{RESTful Web API}
+\label{section:api}
+Come si intuisce in figura \ref{fig:overview}, si è pensato alla creazione di una RESTful Web API, ovvero interfaccia composta da un insieme
+di \textit{endpoints} pubblici che consentono di ottenere delle informazioni mediante un sistema di richiesta-risposta tra client e server.
+
+Tutti i componenti dell'app e del classificatore interessati a tali informazioni sono in grado di ricavarle con richieste a queste API, il che 
+consente di avere accesso ad informazioni sempre aggiornate. Un cambiamento dei valori in fase di amministrazione consentirà la 
+distribuzione delle modifiche senza la necessità del rilascio di un'aggiornamento dell'applicazione o riprogrammazione del ricevitore.
+
+
+\subsection{Protocollo e formato}
+Tutte le richieste e le risposte utilizzando per lo scambio dati il protocollo HTTP, il comune protocollo di livello 
+applicativo utilizzato nel World Wide Web.
+
+I dati sono trasmessi con il formato JSON, una formato standard che sfrutta una notazione chiave-valore facilmente leggibile.
+
+
+\subsection{Endpoints}
+Gli endpoints sono i punti in cui un software esterno accede a determinate informazioni. L'accesso avviene mediante la chiamata ad un URL 
+web che ci si aspetta rispondi con i dati richiesti.
+
+\subsubsection{Lista delle attività}
+Il primo degli endpoints impostato riguarda la lista di tutte le attività che il sistema imparerà a riconoscere.
+Ogni attività conterrà
+\begin{itemize}
+    \item l'identificativo numerico
+    \item il nome
+    \item le traduzioni nelle lingue ammesse
+    \item il tempo (in secondi) indicante la durata necessaria per l'addestramento dell'attività
+\end{itemize}
+
+\begin{listing}[H] 
+    \begin{minted}[frame=single,framesep=10pt]{text}
+        http://IP_ADDRESS:PORT/activities
+    \end{minted}
+    \caption{Endpoint per la lista delle attività}
+\end{listing}
+
+\subsubsection{Lista delle posizioni del dispositivo}
+Il secondo endpoint fornisce la lista di tutte le luighi in cui può essere posizionato il dispositivo durante l'esecuzione 
+di una analizi o di un apprendimento.
+
+\begin{listing}[H] 
+    \begin{minted}[frame=single,framesep=10pt]{text}
+        http://IP_ADDRESS:PORT/positions
+    \end{minted}
+    \caption{Endpoint per la lista delle posizioni del dispositivo}
+\end{listing}
+
+\subsubsection{Informazioni sui dati aggiuntivi}
+Il terzo endpoint fornisce il modulo di dati aggiuntivi da richiedere all'utente per mezzo dell'applicazione.
+
+\begin{listing}[H] 
+    \begin{minted}[frame=single,framesep=10pt]{text}
+        http://IP_ADDRESS:PORT/form
+    \end{minted}
+    \caption{Endpoint per le informazioni sui dati aggiuntivi}
+\end{listing}
+
+\subsection{Implementazione}
+L'implementazione del software è stata effettuata con l'utilizzo di Flask \cite{flask}, un framework leggero 
+per svilluppare con facilità semplici applicazioni web.
+
+Il codice realizzato si occupa semplicemente di esporre i 3 file JSON contenenti i contenuti nei rispettivi endpoints.
+
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{python}{snippets/server/api/flask.py}
+    \caption{Flask App per una RESTful Web API con 3 endpoints}
+\end{listing}
+
