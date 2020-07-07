@@ -127,3 +127,31 @@ e, in aggiunta, nel caso dell'apprendimento\dots
     \inputminted[frame=single,framesep=10pt]{json}{snippets/server/receiver/message.json}
     \caption{Esempio di messaggio ricevuto per l'apprendimento}
 \end{listing}
+
+\newpage
+\subsection{Azioni}
+Come logico pensare, le azioni da intraprendere per le diverse tipologie di richiesta sono differenti. 
+
+\subsubsection{Messaggi di Apprendimento}
+Nel caso della ricezione di dati per l'apprendimento la prima azione da intraprendere è il salvataggio dei dati ricevuti.
+Si utilizza il formato CSV grazie al quale i vari record, già suddivisi in base al sensore corrispondente, sono organizzati in modo ordinato. 
+
+In secondo luogo sarà avviato il processo di \textit{train} del classificatore, che sarà trattato nel capitolo \ref{chapter:classification}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.40]{assets/images/examples/dataset-data-example.png}
+    \caption{Esempio del dataset CSV contenente dati accelerometrici}
+\end{figure}
+
+
+\subsubsection{Messaggi di Analisi}
+Nel caso di ricezione di dati per l'analisi non si deve immagazzinare passivamente tutte le informazioni ricevute, ma è necessario fornire
+al client connesso le risposte che si aspetta.
+
+Alla ricezione del numero minimo di record si avvia il processo di predizione del classificatore, trattato sempre nel capitolo \ref{chapter:classification}.
+Una volta ottenuta l'ipotesi, questa sarà inviata come risposta in formato JSON.
+
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{json}{snippets/server/receiver/prediction.json}
+    \caption{Esempio di messaggio di risposta con l'ipotesi formulata}
+\end{listing}
