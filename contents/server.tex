@@ -95,24 +95,27 @@ In questa sezione ci occuperemo di ciò che riguarda l'applicativo riservato all
 la parte del software che si occupa di accettare le connessioni dai client (idealmente l'applicazione realizzata, di cui 
 discuteremo nel capitolo \ref{chapter:app}) e di immagazzinare i dati ottenuti.
 
+\subsection{Protocollo e formato}
 Al contrario di quanto accade con la API, la connessione al \textit{ricevitore} avviene mediante una connessione 
 TCP diretta via Socket.
 Essendo TCP un protocollo di rete a livello di trasporto, ci consente di avere una velocità maggiore a quanto avremmo avuto 
 utilizzando il protocollo HTTP. Questa scelta è stata effettuata in seguito alla necessità di trasmettere i dati
 con il minimo ritardo.
+Malgrado questa scelta si mantiene, per comodità, l'utilizzo del formato JSON anche in questo frangente.
 
+
+\subsection{Messaggi}
 Il ricevitore deve gestire due tipi di richieste, quelle che inviano i dati per effettuarne l'apprendimento e quelle che inviano
 i dati in attesa di ricevere una predizione. Tuttavia la lettura dei messaggi ricevuti resta la medesima ed il 
 valore relativo alla tipologia sarà un valore interno alle informazioni.
 
-\newpage
-Per concludere, le informazioni presenti in un singolo messaggio sono
+Per concludere, i dati ricevuti in un singolo messaggio sono
 \begin{itemize}
-    \item un codice identificante un set di messaggi
-    \item un indice indicante la progressione dei dati
+    \item il codice identificante un set di messaggi
+    \item il indice indicante la progressione dei dati
     \item i valori degli assi (x,y,z)
     \item il sensore di movimento che ha generato i valori ottenuti
-    \item un valore temporale (\textit{timestamp})
+    \item il valore temporale (\textit{timestamp})
     \item la posizione del telefono selezionata durante l'attività in corso
 \end{itemize}
 e, in aggiunta, nel caso dell'apprendimento\dots
