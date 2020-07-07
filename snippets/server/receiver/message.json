@@ -1,0 +1,20 @@
+{
+    "status": "OK", 
+    "mode": "learning",
+    "data": {
+        "archive": "bea38ae7-ff27-47eb-b907-de63eeb0772a",
+        "type": "data", 
+        "info": {
+            "index": 153,
+            "activity": "walk",
+            "sensor": "accelerometer",
+            "position": "right_hand"
+        },
+        "values": {
+            "x": 1.23456,
+            "y": 1.23456,
+            "z": 1.23456,
+            "t": 1234567
+        }
+    }
+}

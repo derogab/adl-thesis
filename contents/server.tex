@@ -86,3 +86,41 @@ Il codice realizzato si occupa semplicemente di esporre i 3 file JSON contenenti
     \caption{Flask App per una RESTful Web API con 3 endpoints}
 \end{listing}
 
+
+
+\section{Ricevitore}
+Come è sempre possibile intuire dalla figura \ref{fig:overview}, sul server trovano luogo anche il classificatore, 
+i dati che sono stati raccolti e tutti i modelli generati. 
+In questa sezione ci occuperemo di ciò che riguarda l'applicativo riservato allo scambio dei dati con i client. In particolare
+la parte del software che si occupa di accettare le connessioni dai client (idealmente l'applicazione realizzata, di cui 
+discuteremo nel capitolo \ref{chapter:app}) e di immagazzinare i dati ottenuti.
+
+Al contrario di quanto accade con la API, la connessione al \textit{ricevitore} avviene mediante una connessione 
+TCP diretta via Socket.
+Essendo TCP un protocollo di rete a livello di trasporto, ci consente di avere una velocità maggiore a quanto avremmo avuto 
+utilizzando il protocollo HTTP. Questa scelta è stata effettuata in seguito alla necessità di trasmettere i dati
+con il minimo ritardo.
+
+Il ricevitore deve gestire due tipi di richieste, quelle che inviano i dati per effettuarne l'apprendimento e quelle che inviano
+i dati in attesa di ricevere una predizione. Tuttavia la lettura dei messaggi ricevuti resta la medesima ed il 
+valore relativo alla tipologia sarà un valore interno alle informazioni.
+
+\newpage
+Per concludere, le informazioni presenti in un singolo messaggio sono
+\begin{itemize}
+    \item un codice identificante un set di messaggi
+    \item un indice indicante la progressione dei dati
+    \item i valori degli assi (x,y,z)
+    \item il sensore di movimento che ha generato i valori ottenuti
+    \item un valore temporale (\textit{timestamp})
+    \item la posizione del telefono selezionata durante l'attività in corso
+\end{itemize}
+e, in aggiunta, nel caso dell'apprendimento\dots
+\begin{itemize}
+    \item l'attività che si sta svolgendo.
+\end{itemize}
+
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{json}{snippets/server/receiver/message.json}
+    \caption{Esempio di messaggio ricevuto per l'apprendimento}
+\end{listing}
