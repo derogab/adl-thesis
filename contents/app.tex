@@ -216,16 +216,32 @@ una gestione personalizzata.
 \section{Comunicazioni con il server}
 Oltre a ricavare le informazioni sensoriali è ovviamente necessario procedere al loro invio al server  
 dove verranno processate come visto nella sezione \ref{section:receiver}.
-
+\subsubsection{Connessione al server}
 Per prima cosa però è indispensabile avere una connessione attiva. Tale connessione è richiesta all'avvio dei servizi di 
 analisi e apprendimento.
 
 Come abbiamo precedentemente discusso si è scelta una connessione TCP via socket. La corrispondente implementazione Java
 avviene proprio mediante la classe \textit{Socket} \cite{socket}.
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{java}{snippets/app/server.java}
+    \begin{minted}[frame=single,framesep=10pt]{java}
+socket = new Socket(DESTINATION, PORT);
+    \end{minted}
     \caption{Implementazione della connessione via socket}
 \end{listing}
-Una volta attiva la connessione è possibile procedere con l'invio dei dati ogni qual volta che il sistema 
+
+\subsubsection{Invio di un messaggio}
+Una volta attiva la connessione è attiva, si può procedere con l'invio dei dati ogni qual volta che il sistema 
 operativo notifica un cambiamento di stato dei sensori mediante l'apposito callback 
 di cui abbiamo visto l'implementazione.
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{java}{snippets/app/connection/send.java}
+    \caption{Implementazione dell'invio di un messaggio}
+\end{listing}
+
+\subsubsection{Ricezione di un messaggio}
+La ricezione delle risposte da parte del server avviene invece rimanendo in ascolto 
+dei messaggi in ricezione.
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{java}{snippets/app/connection/receive.java}
+    \caption{Implementazione della ricezione di un messaggio}
+\end{listing}
