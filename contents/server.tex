@@ -52,6 +52,7 @@ Ogni attività conterrà
         http://IP_ADDRESS:PORT/activities
     \end{minted}
     \caption{Endpoint per la lista delle attività}
+    \label{listing:endpoint-activities}
 \end{listing}
 
 \subsubsection{Lista delle posizioni del dispositivo}
@@ -63,6 +64,7 @@ di una analizi o di un apprendimento.
         http://IP_ADDRESS:PORT/positions
     \end{minted}
     \caption{Endpoint per la lista delle posizioni del dispositivo}
+    \label{listing:endpoint-positions}
 \end{listing}
 
 \subsubsection{Informazioni sui dati aggiuntivi}
@@ -73,6 +75,7 @@ Il terzo endpoint fornisce il modulo di dati aggiuntivi da richiedere all'utente
         http://IP_ADDRESS:PORT/form
     \end{minted}
     \caption{Endpoint per le informazioni sui dati aggiuntivi}
+    \label{listing:endpoint-form}
 \end{listing}
 
 \subsection{Implementazione}
@@ -89,6 +92,7 @@ Il codice realizzato si occupa semplicemente di esporre i 3 file JSON contenenti
 
 
 \section{Ricevitore}
+\label{section:receiver}
 Come è sempre possibile intuire dalla figura \ref{fig:overview}, sul server trovano luogo anche il classificatore, 
 i dati che sono stati raccolti e tutti i modelli generati. 
 In questa sezione ci occuperemo di ciò che riguarda l'applicativo riservato allo scambio dei dati con i client. In particolare
@@ -126,6 +130,7 @@ e, in aggiunta, nel caso dell'apprendimento\dots
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{snippets/server/receiver/message.json}
     \caption{Esempio di messaggio ricevuto per l'apprendimento}
+    \label{code:example-message-learning}
 \end{listing}
 
 \newpage

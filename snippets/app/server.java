@@ -1,0 +1,1 @@
+socket = new Socket(DESTINATION, PORT);
