@@ -1,56 +1,107 @@
 \chapter{Classificazione}
 \label{chapter:classification}
 
-Il cuore del progetto riguarda la classificazione delle attività mediante i dati ottenuti. 
+Il cuore del progetto riguarda la classificazione delle attività mediante i dati ottenuti.
 
-Ho optato per l'utilizzo di Keras \cite{keras}.
-Si tratta di una libreria open-source per le reti neurali che astrae lo sviluppo rendendolo più comprensibile, 
+Ho optato per l'utilizzo di Keras di cui vediamo le fasi di \textit{training} e di \textit{prediction}.
+\subsubsection{Keras}
+Keras \cite{keras} è una libreria open-source per le reti neurali che astrae lo sviluppo rendendolo più comprensibile, 
 pur mantenendo pieno supporto alle librerie di più basso livello (es. Tensorflow \cite{tensorflow}) su cui si basa.
 
 
-\section{Caricamento dei dati}
-Il passaggio che precede l'apprendimento è il recupero dei dati collezionati nei file CSV.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale = 0.40]{assets/images/examples/dataset-data-example.png}
-    \caption{Esempio di dati contenuti nel file CSV}
-\end{figure}
-
-Dopo la sola lettura è già possibile ottenere una chiara visualizzazione grafica della suddivisione per attività dei dati presenti.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale = 0.40]{assets/images/activity-type-graph_acc.png}
-    \centering
-    \includegraphics[scale = 0.40]{assets/images/activity-type-graph-gyro.png}
-    \caption{Visualizzazione della suddivisione dei dati per i due sensori}
-\end{figure}
-
-
-\newpage
-I dataset sono relativi ai sensori attivi sull'applicazione, ovvero accelerometro e giroscopio.
-Entrambi contengono la stessa tipologia di informazioni (i valori dei tre assi, il timestamp e il posizionamento del dispositivo). 
-Nelle procedure seguenti considererò quindi il singolo dataset, ricordando però di dover applicare i passaggi indistintamente ad entrambi.
 
 \section{Apprendimento e Test}
+Un classificatore basa le sue predizioni sui modelli che riesce a ricavare dall'insieme di informazioni che ha a disposizione.
+Nel nostro caso l'insieme di queste informazioni è contenuto nei file con i valori generati e ricevuti dall'applicazione.
 
-L'intera mole di dati necessita un partizionamento per differenziare i dati che saranno utilizzati per 
+
+\subsection{Caricamento dei dati}
+I file CSV presentano sono organizzati come nell'esempio visto in figura \ref{fig:example-dataset-csv-accelerometer}.
+
+È necessario ricordare che i dati ottenuti da differenti sensori sono stati immagazzinati dal \textit{ricevitore} in diversi file CSV. 
+Nel caso in esame sono quindi presenti due file, uno per l'accelerometro ed un secondo per il giroscopio.
+
+Entrambi contengono la stessa tipologia di informazioni e sono strutturati in modo equivalente.
+Per questo motivo nelle procedure seguenti considererò un singolo dataset, ricordando però di dover applicare tutti i 
+passaggi indistintamente ad entrambi.
+
+\subsubsection{Lettura del file}
+L'intero dataset contiene un ampio numero di record, ognuno dei quali è composto dalle seguenti informazioni:
+\begin{itemize}
+    \item un identificativo che raggruppa i valori ottenuti da una singola esecuzione
+    \item un indice crescente che ordina i record di un archivio
+    \item i valori acquisiti dal sensore
+    \item l'istante temporale di acquisizione
+    \item la posizione del dispositivo
+    \item la relativa attività
+\end{itemize}
+Come è possibile notate i valori contenuti in un singolo record corrispondono a quelli inviati dall'applicazione durante 
+la raccolta dei dati sensoriali di apprendimento,
+eccezion fatta per il tipo di sensore che è già stato usato per la divisione preliminare.
+
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/read_csv.py}
+    \caption{Creazione del dataframe a partire dal file CSV}
+\end{listing}
+
+
+\subsection{Valutazione della posizione del dispositivo}
+Comunemente la posizione del dispositivo di raccolta dati viene spesso sottovalutata durante lo sviluppo di tecniche 
+per il riconoscimento delle attività. Tuttavia si tratta di un aspetto molto importante per la valutazione dei dati \cite{umafall}.
+
+Dopo una prima valutazione che prevedeva l'utilizzo di questo dato come una semplice caratteristica informativa, ho deciso 
+di dare ad esso un'importanza maggiore. 
+
+Il maggior valore è derivato dalla decisione di partizionare i record presenti nel dataset in base alla relativa posizione. 
+Tale scelta comporta la necessità di eseguire le procedure di \textit{train} e \textit{test} seguenti su tutte le diverse partizioni 
+e conseguentemente la creazione di un modello indipendente per ognuna di esse.
+
+\vspace{5mm} %5mm vertical space
+
+Ai fini della trattazione proseguirò considerando solamente il gruppo di dati relativo ad una posizione 
+tra quelle che ho personalmente impostato.
+
+Ricordando che i dati sono già stati in precedenza partizionati in base al sensore di riferimento, è importante tener presente 
+che tutte le seguenti procedure dovranno essere ripetute per ogni posizione e per ogni sensore.
+
+\vspace{5mm} %5mm vertical space
+
+Consideriamo quindi solo i dati \textit{accelerometrici} e \textit{"nella mano destra"}.
+
+
+\subsection{Suddivisione grafica}
+Per ogni partizione di dati che si va a considerare è possibile ottenere una chiara visualizzazione grafica 
+della suddivisione per attività dei dati presenti.
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.60]{assets/images/classifications/accelerometer/right_hand/activity-type-graph-right-hand-acc.png}
+    \caption{Visualizzazione della suddivisione per attività}
+\end{figure}
+
+
+\subsection{Apprendimento}
+La mole di dati considerata necessita un partizionamento per differenziare i dati che saranno utilizzati per 
 l'\textit{apprendimento} e quelli che saranno utilizzati per il \textit{test}.
+
+È indispensabile verificare che le partizioni non abbiano sovrapposizioni se non si vuole ottenere una valutazione dell'efficienza falsata.
+
+\vspace{5mm} %5mm vertical space
 
 Personalmente ho scelto una semplice suddivisione che prevede l'utilizzo di $\frac{4}{5}$ dei dati per il \textit{train} e 
 la parte restante ($\frac{1}{5}$) per il \textit{test}.
 
-È indispensabile non sovrapporre queste frazioni se non si vuole ottenere una valutazione dell'efficienza falsata.
 
 \subsection{Preparazione dei dati}
-Ci si aspetta che, fornita una serie di caratteristiche (i tre assi x, y, z, il valore temporale e 
-la posizione del dispositivo), la rete neurale dia in risposta un'etichetta rappresentate l'attività associata.
+Ci si aspetta che, fornita una serie di caratteristiche (i tre assi x, y, z ed il valore temporale, 
+la rete neurale dia in risposta un'etichetta rappresentate l'attività associata.
+
+\vspace{5mm} %5mm vertical space
 
 Dobbiamo quindi organizzare i dati in nostro possesso in modo da renderlo possibile.
 
 \subsubsection{Trasformazione del valore temporale}
-Tra le caratteristiche abbiamo i \textit{timestamp}s che però rappresentano il tempo assoluto, 
+Una delle quattro caratteristiche che intendiamo utilizzare è il valore temporale.
+I \textit{timestamp}s però rappresentano il tempo assoluto, 
 ovvero il momento esatto di svolgimento dell'attività durante la raccolta dei dati.
 
 Il momento esatto non è in alcun modo rilevante nella classificazione, ma a partire da questo è possibile ricavare il tempo trascorso 
@@ -60,7 +111,7 @@ Posso presumere una somiglianza in tali distanze temporali durante lo svolgiment
 \subsubsection{Normalizzazione dei dati}
 La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo una semplice normalizzazione sui dati delle caratteristiche.
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/normalize_data.py}
+    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/normalize_data.py}
     \caption{Banale normalizzazione dei dati}
 \end{listing}
 
@@ -77,14 +128,14 @@ Ogni raggruppamento sarà caratterizzato da
 
 \begin{figure}[H]
   \centering
-  \includesvg[scale = 0.6]{assets/graphs/create_segments_and_labels.svg}
+  \includesvg[scale = 0.8]{assets/graphs/create_segments_and_labels.svg}
   \caption{Creazione dei segmenti e delle etichette}
   \label{fig:create_segments_and_labels}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includesvg[scale = 0.6]{assets/graphs/segments_and_labels.svg}
+  \includesvg[scale = 0.65]{assets/graphs/segments_and_labels.svg}
   \caption{Risultato dopo la creazione dei segmenti e delle etichette}
   \label{fig:segments_and_labels}
 \end{figure}
@@ -92,9 +143,9 @@ Ogni raggruppamento sarà caratterizzato da
 Alla fine del processo ho quindi ottenuto una serie di segmenti di dati a cui posso singolarmente associare una determinata
 etichetta identificativa.
 
-\newpage
+
 \subsection{Creazione della rete neurale}
-Una volta generati i dati nel formato supportato da \textit{Keras} procedo alla creazione di 
+Una volta generati i dati nel formato supportato da \textit{keras} procedo alla creazione di 
 una rete neurale che abbia
 \begin{itemize}
     \item in input il formato dei dati appena generato
@@ -102,39 +153,47 @@ una rete neurale che abbia
     \item in output il calcolo di propabilità per ogni classe
 \end{itemize}
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/dnn_create.py}
+    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/dnn_create.py}
     \caption{Creazione della DNN}
 \end{listing}
 Per poi procedere all'apprendimento.
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/dnn_fit.py}
+    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/dnn_fit.py}
     \caption{Apprendimento della rete neurale}
 \end{listing}
 
+
+\subsection{Statistiche del modello}
+Al termine dell'attività di apprendimento il modello è stato generato. Ed è possibile vedere un grafico 
+riassuntivo dei risultati ottenuti.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.45]{assets/images/modal_accuracy_data_loss_acc.png}
-    \centering
-    \includegraphics[scale = 0.45]{assets/images/modal_accuracy_data_loss_gyro.png}
+    \includegraphics[scale = 0.60]{assets/images/classifications/accelerometer/right_hand/model-right-hand-acc.png}
     \caption{Statistiche del modello ottenuto}
 \end{figure}
 
+
 \subsection{Testing della rete neurale}
-Il test della rete neurale creata avviene mediante l'uso dei dati che avevamo precedentemente separato dal dataset iniziale.
+Il test della rete neurale creata avviene mediante l'uso della partizione di dati che avevamo precedentemente separato.
 
 L'intento è quello di effettuare una predizione con i dati di test, di cui però si conoscono già i risultati. 
 Sarà quindi immediato trovare l'efficienza del modello creato mediante un banale confronto tra i dati ipotizzati 
 dalla rete neurale e i risultati corretti.
 
-La qualità dei dati può essere visualizzata mediante una \textit{matrice di confusione} che fornisce una rappresentazione grafica del confronto appena descritto.
+La qualità dei dati può essere visualizzata mediante una \textit{matrice di confusione} che fornisce una rappresentazione 
+grafica del confronto appena descritto.
+
+\subsubsection{Matrice di confusione}
+La matrice di confusione è una tabella di rappresentazione dell'accuratezza di un modello di classificazione. 
+In una matrice di confusione sono contrapposti i valori ipotizzati da un modello di classificazione e i valori reali 
+di cui si conosceva il corretto risultato.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.45]{assets/images/confusion_matrix_acc.png}
-    \centering
-    \includegraphics[scale = 0.45]{assets/images/confusion_matrix_gyro.png}
-    \caption{Statistiche del modello ottenuto}
+    \includegraphics[scale = 0.60]{assets/images/classifications/accelerometer/right_hand/confusion-matrix-right-hand-acc.png}
+    \caption{Matrice di confusione del modello ottenuto}
 \end{figure}
+
 
 \section{Predizioni}
 In maniera del tutto equivalente a quanto già visto durante l'apprendimento, per effettuare una predizione sfruttando
