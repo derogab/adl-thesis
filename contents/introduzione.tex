@@ -5,8 +5,34 @@ quantità sempre maggiore di tecniche di \textit{deep learning} sviluppate negli
 affidabile per la classificazione delle attività di vita quotidiana (Activities of Daily Living, ADLs).
 
 Un aspetto che lega la quasi totalità delle tecniche messe in campo quando si parla di HAR è sicuramente l'ottenimento delle informazioni 
-utili per le analisi. Per il riconoscimento di una attività sono indubbiamente necessari i dati ottenuti dai
-sensori di movimento posizionati sui nostri smartphone o sui sempre più comuni braccialetti ed orologi intelligenti.
+utili per le analisi. 
+
+Esistono diverse tecniche di acquisizione usate per il riconoscimento delle attività. 
+Alcuni dati utili possono essere frame video e immagini oppure i dati inerziali ottenuti da sensori di movimento \cite{har_survey}.
+
+\vspace{5mm} %5mm vertical space
+
+In questa trattazione ho scelto l'uso dei dati inerziali per il riconoscimento delle attività.
+Gli smartphone e gli indossabili (ad esempio braccialetti ed orologi intelligenti) sono sempre più comuni e perciò costituiscono 
+una fonte di informazioni potenzialmente infinita.
+
+
+\section{Dati inerziali}
+Le informazioni relative al movimento di un corpo nello spazio tridimensionale sono raccolte 
+dai cosiddetti \textbf{sensori inerziali}, principalmente accelerometro e giroscopio.
+\subsubsection{Accelerometro}
+L'accelerometro è un sensore capace di misurare l'accelerazione gravitazionale su un oggetto.
+Un tempo destinato ad usi scientifici e militari, è diventato di uso comune con l'avanzare della tecnologia.
+
+La totalità degli smartphone e degli indossabili intelligenti sono oggi dotati di un \textit{accelerometro a 3 assi} in grado 
+di misurare l'accelerazione applicata su ognuno dei 3 assi dello spazio. 
+Da questo deriva la possibilità di conoscere l'orientamento del dispositivo e di conseguenza i movimenti.
+
+\subsubsection{Giroscopio}
+Il giroscopio è un sensore capace di ricavare l'orientamento dell'oggetto sulla base di alcune proprietà fisiche che lo contraddistinguono.
+
+Una buona parte di smartphone ed indossabili intelligenti sono dotati anche di un \textit{giroscopio a 3 assi} che coopera 
+con l'accelerometro nella raccolta di dati inerziali.
 
 \section{Classificazione}
 Il riconoscimento delle attività si basa sulla \textit{classificazione}, un problema statistico che ha l'obiettivo di ipotizzare 
@@ -18,7 +44,7 @@ di calcolo su un certo dominio di dati in modo che successivamente possa applica
 
 Definiamo quindi \textbf{classificatore} un algoritmo in grado di risolvere il problema della classificazione, ovvero di fornire in output 
 l'etichetta che meglio identifica i dati ricevuti in input.
-Nel caso in esame il classificatore dovrà ipotizzare una attività ricevendo in input un set di dati sensoriali
+Nel caso in esame il classificatore dovrà ipotizzare una attività ricevendo in input un set di dati inerziali 
 raccolti dall'applicazione sviluppata.
 
 \subsection{L'importanza dei dati}
@@ -30,12 +56,7 @@ La necessità di un set di dati ampio per l'apprendimento è principalmente cons
 le attività svolte nella vita reale non sono perfettamente suddivisibili per essere facilmente classificate e inoltre, dato che diverse persone
 potrebbero svolgere una uguale attività in modi differenti, non si ha nemmeno una corrispondenza biunivoca tra un insieme di dati e l'attività \cite{framework_long_term_data_har}.
 
-\subsubsection{Dati necessari per il riconoscimento}
-È già stato anticipato che i dati su cui solitamente si basa lo sviluppo di un classificatore per il riconoscimento di una attività sono forniti dai 
-più comuni sensori di movimento.
 
-Ad essi ne possono essere aggiunti di ulteriori, come ad esempio le informazioni sulle caratteristiche fisiche
-dell'individuo o sulla posizione in cui è situato il dispositivo di raccolta.
 
 \section{Obiettivo e panoramica del progetto}
 Lo scopo del progetto è quindi lo sviluppo di un classificatore di ADLs in grado di interagire con una applicazione
@@ -49,12 +70,16 @@ Android.
 \end{figure}
 
 \subsubsection{Applicazione}
-L'applicazione raccoglie i dati inerziali dai principali sensori di movimento che saranno elaborati 
-remotamente in modo da fornire all'utente un riscontro dell'attività svolta.
+L'applicazione permette, mediante l'utilizzo dei principali sensori inerziali del dispositivo, la raccolta dei dati che saranno poi elaborati 
+remotamente. Si occupa inoltre di fornire all'utente un riscontro dell'attività ipotizzata in fase di analisi.
+\subsubsection{Ricevitore}
+Chiameremo \textit{ricevitore} il componente che si occupa di gestire ed immagazzinare i dati ricevuti dall'applicazione. 
+Tra i suoi compiti anche quello di fornire eventuali risposte.
 \subsubsection{Classificatore}
-Il componente che effettuerà la classificazione, che come abbiamo detto, gestirà la mole di valori ottenuta tentando di 
-eseguire il riconoscimento vero e proprio delle attività.
-\subsubsection{Rest API}
-Sono poi state aggiunte delle API Rest utilizzate come fonte iniziale di informazioni. Vedremo essere indispensabili 
-per rendere l'intero sistema programmabile in modo dinamico, almeno per quanto riguarda tutto ciò che sarà impostabile 
-da un amministratore in fase di avvio.
+Il classificatore gestisce la mole di valori ottenuta 
+dall'applicazione tentando di eseguire il riconoscimento vero e proprio delle attività 
+per poi restituire l'ipotesi formulata.
+\subsubsection{Rest Web API}
+Sono state aggiunte delle RESTful Web API utilizzate come fonte iniziale di informazioni. 
+Vedremo essere indispensabili per rendere l'intero sistema programmabile in modo dinamico, almeno per quanto riguarda 
+tutto ciò che sarà impostabile da un amministratore in fase di avvio.
