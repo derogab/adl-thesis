@@ -1,7 +1,6 @@
 {
     "status":"success",
-    "groups": [ 
-        {
+    "groups": [ {
             "elements": [
                 {
                     "id":"name",
@@ -11,9 +10,7 @@
                     "translations": {
                         "en": "Name", 
                         "it": "Nome"
-                    },
-                    "contents":null,
-                    "options": null
+                    }
                 }
             ]
         }, 
@@ -26,7 +23,6 @@
                     "translations": {
                         "en": "Stature [m]", "it": "Altezza [m]"
                     },
-                    "contents": null,
                     "options": null
                 }, {
                     "id":"weight",
@@ -35,9 +31,7 @@
                     "text": "Weight",
                     "translations": {
                         "en": "Weight [Kg]", "it": "Peso [Kg]"
-                    },
-                    "contents": null,
-                    "options": null
+                    }
                 }
             ]
         }
