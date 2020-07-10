@@ -1,0 +1,45 @@
+{
+    "status":"success",
+    "groups": [ 
+        {
+            "elements": [
+                {
+                    "id":"name",
+                    "type":"input-text",
+                    "uploadable": false,
+                    "text": "Name",
+                    "translations": {
+                        "en": "Name", 
+                        "it": "Nome"
+                    },
+                    "contents":null,
+                    "options": null
+                }
+            ]
+        }, 
+        {
+            "elements": [ {
+                    "id":"stature",
+                    "type":"input-text",
+                    "uploadable": true,
+                    "text": "Stature",
+                    "translations": {
+                        "en": "Stature [m]", "it": "Altezza [m]"
+                    },
+                    "contents": null,
+                    "options": null
+                }, {
+                    "id":"weight",
+                    "type":"input-text",
+                    "uploadable": true,
+                    "text": "Weight",
+                    "translations": {
+                        "en": "Weight [Kg]", "it": "Peso [Kg]"
+                    },
+                    "contents": null,
+                    "options": null
+                }
+            ]
+        }
+    ]
+}

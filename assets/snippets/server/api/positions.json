@@ -1,0 +1,37 @@
+{
+    "status": "success",
+    "positions": [
+        {
+            "id": 0,
+            "position": "left_hand",
+            "translations": {
+                "en": "In left hand", 
+                "it": "Nella mano sinistra"
+            }
+        },
+        {
+            "id": 1,
+            "position": "right_hand",
+            "translations": {
+                "en": "In right hand", 
+                "it": "Nella mano destra"
+            }
+        },
+        {
+            "id": 2,
+            "position": "front_left_pocket",
+            "translations": {
+                "en": "In the front left pocket", 
+                "it": "Nella tasca anteriore sinistra"
+            }
+        },
+        {
+            "id": 3,
+            "position": "front_right_pocket",
+            "translations": {
+                "en": "In the front right pocket", 
+                "it": "Nella tasca anteriore destra"
+            }
+        }
+    ]
+}
