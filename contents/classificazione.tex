@@ -40,7 +40,7 @@ la raccolta dei dati sensoriali di apprendimento,
 eccezion fatta per il tipo di sensore che è già stato usato per la divisione preliminare.
 
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/read_csv.py}
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/read_csv.py}
     \caption{Creazione del dataframe a partire dal file CSV}
 \end{listing}
 
@@ -130,7 +130,7 @@ Posso presumere una somiglianza in tali distanze temporali durante lo svolgiment
 \subsubsection{Normalizzazione dei dati}
 La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo una semplice normalizzazione sui dati delle caratteristiche.
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/normalize_data.py}
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/normalize_data.py}
     \caption{Banale normalizzazione dei dati}
 \end{listing}
 
@@ -172,12 +172,12 @@ una rete neurale che abbia
     \item in output il calcolo di propabilità per ogni classe
 \end{itemize}
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/dnn_create.py}
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/dnn_create.py}
     \caption{Creazione della DNN}
 \end{listing}
 Per poi procedere all'apprendimento.
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/dnn_fit.py}
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/dnn_fit.py}
     \caption{Apprendimento della rete neurale}
 \end{listing}
 
@@ -196,7 +196,7 @@ riassuntivo dei risultati ottenuti.
 Il modello generato è facilmente salvato in un file con estensione \textit{.h5} che mi permetterà in seguito 
 di ricaricarlo senza dover rieffettuare l'intero processo sui dati.
 \begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/save_model.py}
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/save_model.py}
     \caption{Salvataggio del modello ottenuto}
 \end{listing}
 
