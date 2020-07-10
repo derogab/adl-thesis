@@ -100,7 +100,7 @@ basarsi solamente sulla lettura dei valori.
 \end{figure}
 
 
-\subsection{Apprendimento}
+\subsection{Partizionamento dei dati}
 La mole di dati considerata necessita un partizionamento per differenziare i dati che saranno utilizzati per 
 l'\textit{apprendimento} e quelli che saranno utilizzati per il \textit{test}.
 
@@ -113,12 +113,10 @@ la parte restante ($\frac{1}{5}$) per il \textit{test}.
 
 
 \subsection{Preparazione dei dati}
-Ci si aspetta che, fornita una serie di caratteristiche (i tre assi x, y, z ed il valore temporale, 
-la rete neurale dia in risposta un'etichetta rappresentate l'attività associata.
-
-\vspace{5mm} %5mm vertical space
-
-Dobbiamo quindi organizzare i dati in nostro possesso in modo da renderlo possibile.
+\label{section:learning-data-preparation}
+A questo punto è necessario organizzare i dati in nostro possesso in modo che 
+ad una serie di caratteristiche (i tre assi x, y, z ed il valore temporale) sia associabile un'etichetta 
+rappresentate l'attività. 
 
 \subsubsection{Trasformazione del valore temporale}
 Una delle quattro caratteristiche che intendiamo utilizzare è il valore temporale.
@@ -156,7 +154,7 @@ Ogni raggruppamento sarà caratterizzato da
 
 \begin{figure}[H]
   \centering
-  \includesvg[scale = 0.65]{assets/graphs/segments_and_labels.svg}
+  \includesvg[scale = 1.0]{assets/graphs/segments_and_labels.svg}
   \caption{Risultato dopo la creazione dei segmenti e delle etichette}
   \label{fig:segments_and_labels}
 \end{figure}
@@ -194,10 +192,19 @@ riassuntivo dei risultati ottenuti.
 \end{figure}
 
 
-\subsection{Testing della rete neurale}
-Il test della rete neurale creata avviene mediante l'uso della partizione di dati che avevamo precedentemente separato.
+\subsection{Salvataggio del modello}
+Il modello generato è facilmente salvato in un file con estensione \textit{.h5} che mi permetterà in seguito 
+di ricaricarlo senza dover rieffettuare l'intero processo sui dati.
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{python}{snippets/classifier/save_model.py}
+    \caption{Salvataggio del modello ottenuto}
+\end{listing}
 
-L'intento è quello di effettuare una predizione con i dati di test, di cui però si conoscono già i risultati. 
+
+\subsection{Testing della rete neurale}
+Per testare il modello appena creato utilizzo la partizione precedentemente separata.
+
+L'intento è quello di effettuare una predizione con i dati di test di cui però si conoscono già i risultati. 
 Sarà quindi immediato trovare l'efficienza del modello creato mediante un banale confronto tra i dati ipotizzati 
 dalla rete neurale e i risultati corretti.
 
@@ -217,7 +224,73 @@ di cui si conosceva il corretto risultato.
 
 
 \section{Predizioni}
-In maniera del tutto equivalente a quanto già visto durante l'apprendimento, per effettuare una predizione sfruttando
-la rete neurale allenata forniremo in input una serie di segmenti e attenderemo che il classificatore ci fornisca in risposta
-una serie di etichette ipotizzate.
+Il processo di predizione consiste nell'ipotizzare, grazie ad un modello tra quelli generati, 
+l'etichetta più opportuna da assegnare ad un insieme di record contenenti
+\begin{itemize}
+    \item i valori ottenuti dal sensore
+    \item il dato temporale
+    \item il tipo di sensore a cui si riferiscono
+    \item la posizione del dispositivo durante l'esecuzione
+\end{itemize}
 
+
+\subsection{Scelta del modello}
+Per prima cosa, tra le informazioni devo differenziare i dati che mi permetteranno di identificare il modello e le caratteristiche 
+su cui avvierò la predizione.
+
+Ricordo che durante l'apprendimento l'informazione che identificava il tipo di sensore e quella che differenziava 
+la posizione del dispositivo sono state utilizzate per la generazione di differenti modelli.
+Disponendo di queste informazioni è quindi possibile ricavare il modello corretto.
+
+Si nota che le informazioni rimanenti (valori degli assi e valore temporale) corrispondono alle caratteristiche di analisi.
+
+
+\subsection{Preparazione dei dati}
+Fornita una serie di caratteristiche (i tre assi x, y, z ed il valore temporale), ci si aspetta di ottenere 
+in risposta un'etichetta rappresentante l'attività.
+
+\vspace{5mm} %5mm vertical space
+
+Perchè tutto funzioni è indispensabile che i dati forniti alla rete neurale durante la fase di ipotesi 
+abbiano la stessa struttura di quelli utilizzati durante la generazione dei modelli.
+Si attuano in questa fase le stesse procedure viste in precedenza nella corrispondente sezione 
+\ref{section:learning-data-preparation} di apprendimento.
+
+\subsubsection{Operazioni preliminari}
+Per prima cosa si attua la trasformazione del valore temporale dal significato assoluto a quello relativo.
+Ed in seguito si normalizzano le 4 caratteristiche.
+
+
+\subsubsection{Creazione dei segmenti}
+L'insieme dei record è nuovamente preso a gruppi, anche sovrapposti, per la creazione dei segmenti.
+
+\begin{figure}[H]
+    \centering
+    \includesvg[scale = 0.8]{assets/graphs/create_segments.svg}
+    \caption{Creazione dei segmenti}
+    \label{fig:create_segments}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includesvg[scale = 1.0]{assets/graphs/segments.svg}
+    \caption{Risultato dopo la creazione dei segmenti}
+    \label{fig:segments}
+\end{figure}
+
+
+
+\subsection{Ipotesi dell'etichetta}
+A questo punto il lavoro è delegato alla rete neurale che ricevendo in input l'insieme dei segmenti 
+e con l'ausilio del modello selezionato fornisce in output l'insieme delle etichette ipotizzate.
+Il risultato ottenuto è un'insieme di etichette, ognuna associata ad un segmento. 
+
+Per ricavare l'etichetta assoluta associata alle caratteristiche date in input procedo banalmente 
+considerando quella che compare più volte.
+
+\begin{figure}[H]
+    \centering
+    \includesvg[scale = 1.0]{assets/graphs/prediction.svg}
+    \caption{Processo di predizione}
+    \label{fig:prediction}
+\end{figure}
