@@ -1,41 +1,42 @@
 \chapter{Applicazione}
 \label{chapter:app}
-Un altro aspetto chiave del progetto è l'applicazione Android, sviluppata per essere fonte per la 
-raccolta di qualsiasi dato utile alla classificazione. Sintetizzando l'intero funzionamento è possibile 
-raccogliere le funzionalità offerte nella
-\begin{itemize}
-    \item raccolta di dati per l'analisi dell'attività.
-    \item raccolta di dati per l'apprendimento.
-    \item raccolta di dati aggiuntivi.
-\end{itemize}
-\subsubsection{Compatibilità}
-La compatibilità offerta è con tutte le versioni di Android che supportano la versione delle API 16 o superiore, nella pratica tutte
-le versioni maggiori o uguali ad Android 4.1 rilasciato nel 2012. 
-Nella pratica, al momento della stesura di questa relazione, ciò assicura il funzionamento dell'app sul 99,8\% dei dispositivi 
-con questo sistema operativo.
-\begin{figure}[H]
-    \centering
-    \includegraphics[scale = 0.40]{assets/images/android/compatibility.png}
-    \caption{Distribuzione cumulativa delle versioni di Android}
-    \label{fig:android-compatibility}
-\end{figure}
-\subsubsection{Linguaggi di sviluppo}
-I linguaggi utilizzati sono stati \textit{Java} per quanto riguarda l'aspetto programmativo, mentre \textit{XML} per tutti i layout.
-\subsubsection{Traduzioni}
-L'intero applicativo, di cui segue la spiegazione, è stato interamente sviluppato con un supporto multilingua: italiano e inglese.
+Un ulteriore aspetto chiave del progetto è l'applicazione Android. 
+Si tratta di un livello di intermezzo tra l'utente e il classificatore.
 
+Attraverso l'uso dei sensori inerziali del dispositivo è possibile richiedere al sistema di ipotizzare l'attività che si sta svolgendo 
+oppure addestrare lo stesso sistema con una precisa attività tra quelle selezionabili.
+
+
+
+
+\subsubsection{Compatibilità}
+Si offre una compatibilità con tutte le versioni di Android che supportano almeno la versione delle API 16, nella pratica tutte
+le versioni maggiori o uguali ad Android 4.1 rilasciato nel 2012. 
+
+Al momento della stesura di questa relazione corrisponde ad assicurare il funzionamento dell'app sul 99,8\% dei dispositivi 
+con questo sistema operativo.
+
+\subsubsection{Linguaggi di sviluppo}
+I linguaggi utilizzati per lo sviluppo sono stati \textit{Java} per quanto riguarda l'aspetto programmativo, 
+mentre \textit{XML} per tutti i layout.
+
+\subsubsection{Traduzioni}
+L'intero applicativo è dotato di supporto multilingua: italiano e inglese.
+
+
+\newpage
 \section{Interfaccia}
-Si è voluta dare un'interfaccia minimale sviluppata secondo le linee guida dell'ormai conosciuto Material Design.
+L'applicazione presenta un'interfaccia minimale sviluppata secondo le linee guida dell'ormai noto Material Design.
 
 \subsubsection{Material Design}
 Con Material Design \cite{material} si intende un linguaggio visivo che \textit{sintetizza i principi classici 
 del buon design utilizzando le nuove innovazioni della tecnologia e della scienza}.
 
-L'intero linguaggio si basa sul concetto fisico "Materiale" di cui si vuole effettuare una trasposizione nel 
+L'intero linguaggio si basa sul concetto fisico di "Materiale" di cui si vuole effettuare una trasposizione nel 
 design di tutte le caratteristiche (luci, ombre, etc.) che lo definiscono nel mondo reale.
 
 \subsubsection{Suddivisione per funzionalità}
-Le 3 sezioni presenti suddividono con esattezza le 3 funzionalità offerte: 
+La suddivisione delle sezioni dell'applicazione segue perfettamente le funzionalità da essa offerte: 
 l'analisi dell'attività, l'apprendimento di una attività e l'inserimento di informazioni aggiuntive.
 \begin{figure}[H]
     \centering
@@ -46,17 +47,22 @@ l'analisi dell'attività, l'apprendimento di una attività e l'inserimento di in
     \label{fig:screenshots}
 \end{figure}
 
-\subsection{Sezione di analisi}
-La sezione di analisi consente di testare l'efficacia del classificatore. Per meglio dire, è possibile avviare il processo di invio 
-dei dati sensoriali al server ricevitore che, come abbiamo visto nella sezione \ref{section:receiver}, restituirà in risposta l'ipotesi.
 
-L'insieme delle azioni svolte in questa sezione sono divisibili in 4 fasi.
+\subsection{Sezione di analisi}
+La sezione di analisi consente di testare l'efficacia del classificatore. 
+Si vuole ottenere in risposta un riscontro sull'attività che si sta svolgendo.
+
+La raccolta dei dati inerziali procede con l'invio delle informazioni al server ricevitore che, 
+come abbiamo visto nella sezione \ref{section:receiver}, dopo l'elaborazione restituirà in risposta l'ipotesi.
+
 
 \subsubsection{Fase 1: Inizializzazione}
-In una prima fase l'applicazione scarica tramite l'utilizzo delle API (viste nella sezione \ref{section:api}) le informazioni relative
-alle posizioni del dispositivo che sono disponibili e selezionabili.
-L'utente ha quindi la possibilità di selezionare la posizione in cui desidera tenere il telefono durante l'esecuzione della attività ed 
-in seguito avviare l'analisi.
+In una prima fase l'applicazione richiede in autonomia alle API le informazioni relative alle posizioni del dispositivo 
+che sono disponibili.
+
+Dopo aver ottenuto una risposta simile a quella mostrata nel ritaglio di codice \ref{listing:response-positions}  
+l'utente ha la possibilità di selezionare la posizione, tra quelle scaricate, in cui desidera tenere 
+il dispositivo durante l'esecuzione dell'attività. In seguto a questa scelta l'analisi può essere avviata.
 
 \subsubsection{Fase 2: Preparazione}
 All'avvio dell'analisi sarà inizializzato un servizio in foreground \cite{services} che si occuperà di svolgere tutte le azioni 
@@ -64,18 +70,20 @@ necessarie per le fasi seguenti. La UI continuerà ad essere aggiornata con le i
 
 Il primo obiettivo è quello di contattare il server per stabilire una connessione TCP ed iniziare lo scambio dati. 
 Qualora la connessione avvenisse con successo passerà qualche altro secondo prima che i sensori inizino la raccolta dei dati.
-Durante questo \textit{tempo di preparazione}, pensato appositamente in modo da consentire all'utente 
-di prepararsi posizionando il dispositivo nella posizione selezionata, sarà mostrato un countdown.
+Questo \textit{tempo di preparazione} è pensato appositamente in modo da consentire all'utente 
+di prepararsi posizionando il dispositivo nella posizione selezionata. Nella UI è mostrato un countdown.
 
 \subsubsection{Fase 3: Analisi}
-Allo scadere del countdown i sensori vengono abilitati. Ogni informazione raccolta è organizzata in un formato JSON organizzato in 
-modo simile a quanto visto nell'esempio \ref{listing:example-message-learning} ed inviata come messaggio.
+Allo scadere del conto alla rovescia i sensori sono abilitati. 
+Ogni informazione raccolta è inserita in un messaggio simile a quello visto 
+nell'esempio \ref{listing:example-message-learning} e subito inviata.
 
 \subsubsection{Fase 4: Predizione}
-Durante il processo di analisi si ottengono numerose risposte dal server che manda sia messaggi di conferme che messaggi
-contenenti le ipotesi sulla attività.
-La predizione ottenuta è mostrata all'utilizzatore.
-
+Durante la fase di analisi, e ininterrottamente fino allo stop dell'utente, il processo resta in ascolto in attesa di 
+messaggi di risposta dal server.
+La maggioranza delle risposte sono messaggi di conferma di avvenuta ricezione delle informazioni e messaggi contenenti 
+le ipotesi stipulate dal classificatore sull'attività in corso di esecuzione.
+In questa seconda eventualità i risultati vengono mostrati all'utente.
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.1019]{assets/images/screenshots/1a_Init.jpg}
@@ -88,35 +96,45 @@ La predizione ottenuta è mostrata all'utilizzatore.
 
 
 \subsection{Sezione di apprendimento}
-Nella sezione di apprendimento è possibile avviare un processo di raccolta dati del tutto simile a quanto appena visto, ma al quale si associa anche 
-una attività tra quelle selezionabili.
+La sezione di apprendimento consente di incrementare l'insieme di informazioni a disposizione del classificatore. 
+Si vogliono raccogliere dati inerziali di precise attività su cui, come vedremo nel capitolo \ref{chapter:classification}, la rete neurale si baserà per 
+la generazione di modelli sempre più accurati.
 
-L'obiettivo sarà poi quello di utilizzare questi dati sensoriali di cui si conosce la corrispondenza pratica per effettuare il \textit{train} 
-della rete neurale da cui si genererà il modello. In questa fase si da piena fiducia all'utente sulla correttezza dei dati inseriti.
+Il processo è simile a quanto appena visto. La differenza consiste nel fatto che alle informazioni ottenute dai sensori è 
+aggiunta l'attività selezionata manualmente dall'utente.
 
-L'insieme delle azioni svolte in questa sezione sono divisibili in 3 fasi.
+In questa fase si da piena fiducia all'utilizzatore sulla correttezza dei dati inseriti.
 
 \subsubsection{Fase 1: Inizializzazione}
-In questa prima fase l'applicazione scarica diverse informazioni tramite l'utilizzo delle API (viste nella sezione \ref{section:api}):
+In una prima fase l'applicazione richiede in autonomia alle API le informazioni di cui necessita. Si cercano
 \begin{itemize}
     \item le informazioni relative alle posizioni del dispositivo selezionabili
     \item la lista di attività addestrabili e il tempo necessario per il loro apprendimento
 \end{itemize}
-Prima dell'avvio dell'apprendimento l'utilizzatore dovrà quindi selezionare sia la posizione in cui tenere il 
-telefono durante l'esecuzione che l'attività da allenare.
+È immediato ottenere tali informazioni mediante richieste ai due endpoint relativi, i cui esempi di risposta sono mostrati nei codici 
+\ref{listing:response-activities} e \ref{listing:response-positions}.
+
+Una volta avuta le risposte l'utente ha la possibilità di selezionare 
+\begin{itemize}
+    \item la posizione in cui desidera tenere il dispositivo durante l'esecuzione dell'attività.
+    \item l'attività che ha intenzione di addestrare
+\end{itemize}
+In seguto a queste scelte l'apprendimento può essere avviato.
 
 \subsubsection{Fase 2: Preparazione}
 Anche in questo frangente sarà inizializzato un servizio in foreground \cite{services} che si occuperà di svolgere 
 tutte le azioni necessarie per le fasi seguenti e la UI continuerà ad essere aggiornata con le informazioni ricevute da questo servizio.
 
 Nuovamente come prima cosa viene contattato il server per stabilire una connessione TCP ed una volta ricevuta risposta affermativa
-sarà avviato il conto alla rovescia per la preparazione.
+sarà avviato il conto alla rovescia utile come \textit{tempo di preparazione}.
 
 \subsubsection{Fase 3: Apprendimento}
-Allo scadere del countdown sono avviati in parallelo un ulteriore conto alla rovescia e tutti i sensori per la raccolta dei dati.
+Allo scadere del tempo sono avviati in parallelo un ulteriore countdown e tutti i sensori per la raccolta dei dati.
 
-Il secondo countdown indica il tempo di esecuzione necessario e potrebbe differire tra le diverse attività. Fino allo scadere del tempo tutti i dati 
-raccolti dai sensori sono inviati al server.
+Il secondo conto alla rovescia indica il \textit{tempo di esecuzione} necessario. I secondi previsti potrebbero differire tra le diverse attività, 
+in base alle informazione ottenute nella prima fase. 
+
+Fino allo scadere del tempo tutti i dati raccolti dai sensori sono inviati al \textit{ricevitore} di cui abbiamo precedentemente discusso.
 
 \begin{figure}[H]
     \centering
@@ -129,15 +147,10 @@ raccolti dai sensori sono inviati al server.
 
 
 \subsection{Sezione per l'inserimento di dati aggiuntivi}
-La sezione è utile per dare la possibilità di inserire dati aggiuntivi che potrebbero essere utilizzati in qualche modo
-dal classificatore. Un esempio possibile è la richiesta di dati fisici dell'utente (altezza, peso, etc.) qualora in futuro
-si decidesse dar loro una rilevanza nella classificazione.
-
-Malgrado agli occhi dell'utente appaia come un semplice modulo di inserimento dati, la sezione in questione è la più dinamica di tutti 
-per quanto riguarda l'interfaccia. 
-Il modulo che richiede all'utente i dati personali è generato programmativamente per intero a partire da quanto scaricato dal 
-relativo endpoint delle API. Questa opportunità permette ad un amministratore di sistema di variare le richieste 
-senza dover rilasciare un'aggiornamento dell'applicazione.
+La sezione per l'inserimento di dati aggiuntivi permette l'aggiunta di ulteriori informazioni 
+che potrebbero tornare utili durante il riconoscimento dell'attività.
+Un esempio pratico potrebbe essere le informazioni riguardati i dati fisici dell'utente (altezza, peso, etc.) qualora 
+si ritenesse rilevante il loro valore per la classificazione.
 
 \begin{figure}[H]
     \centering
@@ -146,8 +159,32 @@ senza dover rilasciare un'aggiornamento dell'applicazione.
     \label{fig:screenshots_personal}
 \end{figure}
 
+\subsubsection{Generazione del layout}
+Ritengo opportuno soffermarmi maggiormente sulla generazione del layout di questa sezione.
+
+\vspace{5mm} %5mm vertical space
+
+Malgrado agli occhi dell'utilizzatore appaia come un semplice modulo di inserimento dati, 
+la generazione di ogni componente dello stesso avviene in modo dinamico.
+L'intero modulo è generato programmativamente a partire dalle informazioni ricevute in risposta da una richiesta al relativo endpoint delle API. 
+
+Questa opportunità permette ad un amministratore di sistema di variare le informazioni richieste
+senza dover rilasciare un'aggiornamento dell'applicazione.
+
+\vspace{5mm} %5mm vertical space
+
+Per facilitarne la comprensione è possibile vederne un'applicazione in un esempio. La risposta di esempio mostrata nel codice 
+\ref{listing:response-form} è in grado di generare il layout di figura \ref{fig:screenshot_layout_from_code}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale = 0.1019]{assets/images/screenshots/3b_Layout_from_code.jpg}    
+    \caption{Esempio di modulo generato dalle informazioni del codice \ref{listing:response-form}}
+    \label{fig:screenshot_layout_from_code}
+\end{figure}
 
 
+\newpage
 \section{Feedback sonoro}
 Dal funzionamento che abbiamo appena visto è intuibile che l'app possa essere utilizzata con il dispositivo situato in posizioni che non permetterebbero
 un collegamento visivo diretto. Quando la posizione selezionata è, per esempio, nelle tasche.
@@ -170,25 +207,27 @@ il conto alla rovescia ed i risultati dell'attività ipotizzata.
 \section{Countdown Timers}
 I countdown che regolano il tempo di svolgimento delle attività sono implementati utilizzando la 
 classe \textit{CountDownTimer} \cite{countdown} offerta direttamente da Android.
-
-I due timer implementati non hanno un tempo stabilito in partenza. I secondi utili per la preparazione possono essere facilmente
-impostati dall'utente mediante un input nelle impostazioni. Il tempo per l'apprendimento dell'attività è invece scaricato dalle API
-tramite le medesima richiesta delle informazioni sulle attività.
-
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/countdown.java}
     \caption{Implementazione di un conto alla rovescia}
 \end{listing}
+\noindent Entrambi i timer implementati (\textit{timer di preparazione} e \textit{timer di apprendimento}) non hanno un tempo stabilito in partenza. 
+
+I secondi utili per la preparazione sono settabili dall'utente tra le impostazioni dell'applicazione, invece il tempo di 
+apprendimento è invece ottenuto tramite la relativa richiesta alle API e può dipendere dall'attività selezionata.
 
 
 
 \section{Accesso alle API}
-Le chiamate alle API, di cui abbiamo visto le varie applicazioni per l'ottenimento di dati informativi, 
-sono fatte utilizzando la librerie Retrofit. Questa libreria, implementando le classi opportune associate ai dati
-che ci si aspetta dalle risposte (\textit{API Response}), permette di ottenere facilmente le informazioni discusse.
+Le richieste agli endpoint delle API, di cui abbiamo discusso le varie applicazioni per l'ottenimento delle informazioni utili, 
+sono fatte utilizzando la libreria Retrofit. 
+
+Con l'opportuna implementazione di alcune classi associabili $1:1$ ai dati che ci si aspetta dalle risposte delle API
+questa libreria permette di ottenere facilmente le informazioni desiderate.
+
 \subsubsection{Retrofit}
-Retrofit \cite{retrofit} è una librerie open source nata per trasformare una richiesta ad una REST API 
-in una Java Interface.
+Retrofit \cite{retrofit} è una libreria open source \textit{nata per trasformare una richiesta ad una REST API 
+in una Java Interface}.
 
 
 \newpage
@@ -197,12 +236,41 @@ I sensori di movimento implementati sono \textbf{accelerometro} e \textbf{girosc
 
 Entrambi presentano gli stessi valori informativi (i tre assi x, y, z), pertanto durante lo sviluppo sono stati gestiti in modo analogo.
 
-I sensori sono gestiti dal sistema operativo stesso. Per richiedere l'accesso è necessario fare richiesta al gestore (\textit{SensorManager}) 
-per abilitare i sensori necessari ed implementare la classe \textit{SensorEventListener} \cite{sensor}
-insieme ai \textit{callback} che saranno chiamati dal sistema ad ogni evento.
+\subsection{Attivazione dei sensori}
+I sensori del dispositivo sono gestiti direttamente dal sistema operativo. Pertanto Android rende disponibile 
+un gestore (\textit{SensorManager} \cite{sensor_manager}) per permettere di richiederne l'attivazione e la disattivazione.
+
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors/start_sensors.java}
+    \caption{Attivazione dei sensori}
+    \label{listing:sensor-activation}
+\end{listing}
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors/stop_sensors.java}
+    \caption{Disattivazione dei sensori}
+    \label{listing:sensor-deactivation}
+\end{listing}
+
+\subsubsection{Frequenza di campionamento}
+Ho scelto una frequenza di campionamento di $20$ Hz che corrisponde ad avere una acquisizione 
+ogni 
+$$T = \frac{1}{20} = 0.5 s = 50ms $$
+
+\vspace{5mm} %5mm vertical space
+\noindent Si può notare come $50ms$ sia proprio il periodo di campionamento stabilito 
+nel codice \ref{listing:sensor-activation}.
+
+
+\subsection{Estrazione dei dati inerziali}
+Dopo l'attivazione dei sensori il sistema operativo richiama una specifica funzione di \textit{callback} ogni volta 
+che si realizza un evento, ovvero ad ogni nuova acquisizione.
+
+È quindi necessario implementare l'interfaccia \textit{SensorEventListener} \cite{sensor_listener} definendo il 
+callback con l'opportuna gestione dei dati inerziali ottenuti.
+
 \subsubsection{Callback}
-Una callback è una funzione richiamata dal sistema operativo quando si verifica un determinato evento, in modo da implementarne 
-una gestione personalizzata.
+Una callback è una determinata funzione richiamata dal sistema operativo al verificarsi di un determinato evento.
+Consente di implementare una gestione personalizzata dell'evento che l'ha invocata.
 
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors.java}
@@ -210,18 +278,16 @@ una gestione personalizzata.
     \label{listing:sensor-event-callback}
 \end{listing}
 
-
-
 \newpage
 \section{Comunicazioni con il server}
-Oltre a ricavare le informazioni sensoriali è ovviamente necessario procedere al loro invio al server  
+Oltre a ricavare le informazioni dai sensori è ovviamente necessario procedere al loro invio al server  
 dove verranno processate come visto nella sezione \ref{section:receiver}.
 \subsubsection{Connessione al server}
-Per prima cosa però è indispensabile avere una connessione attiva. Tale connessione è richiesta all'avvio dei servizi di 
+Per prima cosa è indispensabile avere una connessione attiva. Tale connessione è richiesta all'avvio dei servizi di 
 analisi e apprendimento.
 
 Come abbiamo precedentemente discusso si è scelta una connessione TCP via socket. La corrispondente implementazione Java
-avviene proprio mediante la classe \textit{Socket} \cite{socket}.
+avviene mediante la classe \textit{Socket} \cite{socket}.
 \begin{listing}[H] 
     \begin{minted}[frame=single,framesep=10pt]{java}
 socket = new Socket(DESTINATION, PORT);
@@ -230,7 +296,7 @@ socket = new Socket(DESTINATION, PORT);
 \end{listing}
 
 \subsubsection{Invio di un messaggio}
-Una volta attiva la connessione è attiva, si può procedere con l'invio dei dati ogni qual volta che il sistema 
+Una volta attiva la connessione è attiva, si può procedere alll'invio dei dati ogni qual volta il sistema 
 operativo notifica un cambiamento di stato dei sensori mediante l'apposito callback 
 di cui abbiamo visto l'implementazione.
 \begin{listing}[H] 
@@ -245,3 +311,9 @@ dei messaggi in ricezione.
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/connection/receive.java}
     \caption{Implementazione della ricezione di un messaggio}
 \end{listing}
+\vspace{5mm} %5mm vertical space
+\noindent Ogni messaggio ricevuto viene elaborato in base alla tipologia. Alcuni di essi rappresentano solo una conferma di avvenuta 
+connessione o di corretta ricezione dei messaggi. Altri invece contengono informazioni da mostrare direttamente all'utente.
+
+\vspace{5mm} %5mm vertical space
+Nel codice \ref{listing:example-message-prediction} di esempio è mostrato uno dei messaggi ricevibili dall'applicazione in questa fase.
