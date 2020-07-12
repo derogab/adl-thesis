@@ -29,7 +29,7 @@
             "sensors": [
                 {"sensor": "accelerometer", "enabled": true},
                 {"sensor": "gyroscope", "enabled": true}
-              ]
+            ]
         }
     ]
 }
