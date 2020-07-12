@@ -3,7 +3,8 @@
 
 Il cuore del progetto riguarda la classificazione delle attività mediante i dati ottenuti.
 
-Ho optato per l'utilizzo di Keras di cui vediamo le fasi di \textit{training} e di \textit{prediction}.
+Ho optato per l'utilizzo di Keras per l'implementazione della rete neurale di cui vediamo le 
+fasi di \textit{training} e di \textit{prediction}.
 \subsubsection{Keras}
 Keras \cite{keras} è una libreria open-source per le reti neurali che astrae lo sviluppo rendendolo più comprensibile, 
 pur mantenendo pieno supporto alle librerie di più basso livello (es. Tensorflow \cite{tensorflow}) su cui si basa.
@@ -12,17 +13,17 @@ pur mantenendo pieno supporto alle librerie di più basso livello (es. Tensorflo
 
 \section{Apprendimento e Test}
 Un classificatore basa le sue predizioni sui modelli che riesce a ricavare dall'insieme di informazioni che ha a disposizione.
-Nel nostro caso l'insieme di queste informazioni è contenuto nei file con i valori generati e ricevuti dall'applicazione.
+Nel nostro caso l'insieme di queste informazioni è contenuto nei file con i valori ricevuti dall'applicazione.
 
 
 \subsection{Caricamento dei dati}
-I file CSV presentano sono organizzati come nell'esempio visto in figura \ref{fig:example-dataset-csv-accelerometer}.
+I file CSV sono organizzati come nell'esempio visto in figura \ref{fig:example-dataset-csv-accelerometer}.
 
 È necessario ricordare che i dati ottenuti da differenti sensori sono stati immagazzinati dal \textit{ricevitore} in diversi file CSV. 
 Nel caso in esame sono quindi presenti due file, uno per l'accelerometro ed un secondo per il giroscopio.
 
 Entrambi contengono la stessa tipologia di informazioni e sono strutturati in modo equivalente.
-Per questo motivo nelle procedure seguenti considererò un singolo dataset, ricordando però di dover applicare tutti i 
+Per semplificare la trattazione nelle procedure seguenti sarà considerato un singolo dataset, ricordando però di dover applicare tutti i 
 passaggi indistintamente ad entrambi.
 
 \subsubsection{Lettura del file}
@@ -35,9 +36,9 @@ L'intero dataset contiene un ampio numero di record, ognuno dei quali è compost
     \item la posizione del dispositivo
     \item la relativa attività
 \end{itemize}
-Come è possibile notate i valori contenuti in un singolo record corrispondono a quelli inviati dall'applicazione durante 
-la raccolta dei dati sensoriali di apprendimento,
-eccezion fatta per il tipo di sensore che è già stato usato per la divisione preliminare.
+Come si può notare i valori contenuti in un singolo record corrispondono a quelli inviati dall'applicazione 
+in un messaggio durante la raccolta dei dati di apprendimento,
+eccezion fatta per il tipo di sensore già utilizzato per la divisione preliminare.
 
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/read_csv.py}
@@ -46,15 +47,18 @@ eccezion fatta per il tipo di sensore che è già stato usato per la divisione p
 
 
 \subsection{Valutazione della posizione del dispositivo}
-Comunemente la posizione del dispositivo di raccolta dati viene spesso sottovalutata durante lo sviluppo di tecniche 
-per il riconoscimento delle attività. Tuttavia si tratta di un aspetto molto importante per la valutazione dei dati \cite{umafall}.
+Comunemente durante lo sviluppo di tecniche per il riconoscimento delle attività la posizione del dispositivo di 
+raccolta dati viene spesso sottovalutata. Tuttavia si tratta di un aspetto molto importante per 
+una miglior classificazione \cite{umafall}.
+
+\vspace{5mm} %5mm vertical space
 
 Dopo una prima valutazione che prevedeva l'utilizzo di questo dato come una semplice caratteristica informativa, ho deciso 
 di dare ad esso un'importanza maggiore. 
 
 Il maggior valore è derivato dalla decisione di partizionare i record presenti nel dataset in base alla relativa posizione. 
-Tale scelta comporta la necessità di eseguire le procedure di \textit{train} e \textit{test} seguenti su tutte le diverse partizioni 
-e conseguentemente la creazione di un modello indipendente per ognuna di esse.
+Tale scelta comporta la necessità di eseguire le procedure di \textit{train} e \textit{test} seguenti su tutte 
+le diverse partizioni e conseguentemente la creazione di un modello indipendente per ognuna di esse.
 
 \vspace{5mm} %5mm vertical space
 
