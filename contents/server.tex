@@ -38,7 +38,8 @@ Una RESTful Web API, secondo le specifiche, è dotata di
 Tutti i componenti interessati a tali informazioni sono in grado di ottenerle con delle richieste.
 
 Si ha accesso ad informazioni sempre aggiornate. Un cambiamento dei valori in fase di amministrazione consente la 
-distribuzione delle modifiche senza la necessità di rilasciare un aggiornamento dell'applicazione o riprogrammare il ricevitore.
+distribuzione delle modifiche senza la necessità di rilasciare un aggiornamento dell'applicazione o riprogrammare il 
+\textit{modulo di comunicazione}.
 
 
 \subsection{Protocollo e formato}
@@ -124,7 +125,7 @@ più avanzate.
 
 
 
-\section{Ricevitore}
+\section{Modulo di Comunicazione}
 \label{section:receiver}
 Sempre dalla panoramica in figura \ref{fig:overview} è possibile intuire che sul server 
 trovano luogo anche il classificatore, i dati che sono stati raccolti e tutti i modelli generati. 
@@ -135,7 +136,7 @@ discuteremo nel capitolo \ref{chapter:app}) e di immagazzinare i dati ottenuti.
 
 \subsection{Protocollo e formato}
 Avendo la necessità di trasmettere almeno un nuovo messaggio ogni $50ms$ per ogni sensore, la 
-connessione al ricevitore avviene via socket mediante TCP. 
+connessione al \textit{modulo di comunicazione} avviene via socket mediante TCP. 
 
 Trattandosi di un 
 protocollo di rete a livello di trasporto ci consente di avere una velocità 
@@ -145,7 +146,7 @@ Per comodità si continua ad utilizzare il formato JSON anche in questo frangent
 
 
 \subsection{Messaggi}
-Il ricevitore deve gestire due tipi di richieste, quelle che inviano i dati per effettuarne l'apprendimento e quelle che inviano
+Il \textit{modulo di comunicazione} deve gestire due tipi di richieste, quelle che inviano i dati per effettuarne l'apprendimento e quelle che inviano
 i dati in attesa di ricevere il risultato di una classificazione. Malgrado ciò la lettura dei messaggi ricevuti resta la medesima ed il 
 valore per identificare la tipologia di richiesta è disponibile internamente alle informazioni.
 \vspace{5mm} %5mm vertical space

@@ -13,13 +13,14 @@ pur mantenendo pieno supporto alle librerie di più basso livello (es. Tensorflo
 
 \section{Apprendimento e Test}
 Un classificatore basa le sue predizioni sui modelli che riesce a ricavare dall'insieme di informazioni che ha a disposizione.
-Nel nostro caso l'insieme di queste informazioni è contenuto nei file CSV nei quali sono salvati i dati ricevuti dall'applicazione.
+Nel nostro caso l'insieme di queste informazioni è contenuto nei file CSV nei quali è salvato lo storico di tutti 
+i dati ricevuti dall'applicazione.
 
 
 \subsection{Caricamento dei dati}
 I file CSV sono organizzati come nell'esempio visto in figura \ref{fig:example-dataset-csv-accelerometer}.
 
-È necessario ricordare che i dati ottenuti da differenti sensori sono stati immagazzinati dal \textit{ricevitore} in diversi file CSV. 
+È necessario ricordare che i dati ottenuti da differenti sensori sono stati immagazzinati dal \textit{modulo di comunicazione} in diversi file CSV. 
 Nel caso in esame sono quindi presenti due file, uno per l'accelerometro ed un secondo per il giroscopio.
 
 Entrambi contengono la stessa tipologia di informazioni e sono strutturati in modo equivalente.
