@@ -173,6 +173,12 @@ Ogni raggruppamento sarà caratterizzato da
 Alla fine del processo ho quindi ottenuto una serie di finestre di dati a cui posso singolarmente associare una determinata
 etichetta identificativa.
 
+\vfill
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/create_segments_and_labels.py}
+    \caption{Creazione delle finestre e delle etichette}
+\end{listing}
+
 \subsubsection{Ampiezza delle finestre}
 Ho implementato una finestra di caratteristiche capace di contenere $80$ record. Ricordando la frequenza di 
 campionamento dei sensori di $f_c = 20$ Hz e il relativo periodo di campionamento di $T_c = 50ms = 0.5s$, ogni finestra rappresenta i dati ottenuti in 
@@ -184,10 +190,13 @@ Durante la lettura di tutti i record da convertire, la finestra scorre in avanti
 Essendo $40$ inferiore alla dimensione scelta per l'ampiezza della finestra ($80$), si genera una sovrapposizione (\textit{overlap}).
 Perciò la quasi totalità dei record (ad eccezione di quelli agli estremi) comparirà in 2 finestre distinte.
 
-\begin{listing}[H] 
-    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/create_segments_and_labels.py}
-    \caption{Creazione delle finestre e delle etichette}
-\end{listing}
+\vfill
+\begin{figure}[H]
+    \centering
+    \includesvg[scale = 0.80]{assets/graphs/overlay.svg}
+    \caption{Ampiezza delle finestre e sovrapposizione}
+    \label{fig:overlay}
+\end{figure}
 
 
 \newpage
