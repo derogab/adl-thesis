@@ -18,31 +18,47 @@ mantenere separati l'installazione di un'applicativo dal sistema ospitante.
 
 \section{RESTful Web API}
 \label{section:api}
-Come si intuisce in figura \ref{fig:overview}, si è pensato alla creazione di una RESTful Web API, ovvero un'interfaccia composta da un insieme
-di \textit{endpoints} pubblici che consentono di ottenere delle informazioni.
-Tutti i componenti interessati a tali informazioni sono in grado di ottenerle mediante un sistema di richiesta-risposta tra client e server. 
+Come si intuisce in figura \ref{fig:overview}, si è pensato alla creazione di una RESTful Web API.
+
+\subsubsection{Web API}
+Una Web API è un'interfaccia composta da un insieme di \textit{endpoints} pubblici che consentono di ottenere informazioni 
+o eseguire specifici compiti mediante un processo di richiesta - risposta tra client e server. 
+
+\subsubsection{Architettura REST}
+REST (\textit{Representational State Transfer}) è uno stile architetturale. 
+
+Una RESTful Web API, secondo le specifiche, è dotata di
+\begin{itemize}
+    \item un \textit{URI} di base (ad esempio, \textit{http://api.example.com/})
+    \item metodi HTTP standard (GET, POST, PUT, PATCH e DELETE)
+    \item un \textit{media type} che identifica il tipo di dato gestito nel trasferimento 
+\end{itemize}
+
+\noindent Gli endpoints realizzati sono utili per ottenere le informazioni durante le fasi preliminari di avvio.
+Tutti i componenti interessati a tali informazioni sono in grado di ottenerle con delle richieste.
 
 Si ha accesso ad informazioni sempre aggiornate. Un cambiamento dei valori in fase di amministrazione consente la 
 distribuzione delle modifiche senza la necessità di rilasciare un aggiornamento dell'applicazione o riprogrammare il ricevitore.
 
 
 \subsection{Protocollo e formato}
-Tutte le richieste e le risposte utilizzano per lo scambio dati il protocollo HTTP, il comune protocollo di livello 
-applicativo utilizzato nel World Wide Web.
-
+Tutte le richieste e le risposte utilizzano per lo scambio dati il protocollo HTTP, come da specifica REST.
 I dati sono trasmessi con il formato JSON, uno standard che sfrutta una notazione chiave-valore facilmente leggibile.
+
+\subsubsection{HTTP}
+HTTP (\textit{HyperText Transfer Protocol}) è un protocollo a livello applicativo per il trasferimento dati. È utilizzato principalmente 
+per il trasferimento dati sul web secondo un'architettura client - server.
+
+\subsubsection{JSON}
+JSON \cite{json} è un formato standard basato sulla notazione chiave-valore. È famoso per essere facilmente 
+leggibile sia da "un umano" che da un calcolatore.
+
 
 
 \subsection{Endpoints}
-Gli endpoints sono i punti in cui un software esterno accede a determinate informazioni. L'accesso avviene mediante la chiamata ad uno 
-specifico URL che ci si aspetta risponda con i dati richiesti.
-
-Gli endpoints che ho previsto sono riservati ad ottenere informazioni su
-\begin{itemize}
-    \item la lista delle attività classificabili
-    \item la lista delle posizioni previste
-    \item un modello per la richiesta di informazioni aggiuntive
-\end{itemize}
+Gli endpoints sono i punti di accesso mediante i quali il software esterno 
+è in grado di accedere alle informazioni. La richiesta ad uno specifico URL 
+deve saper rispondere con i dati e le modalità che ci si aspetta.
 
 \begin{listing}[H] 
     \begin{minted}[frame=single,framesep=10pt]{text}
@@ -54,20 +70,17 @@ http://IP_ADDRESS:PORT/form
     \label{listing:endpoint-positions}
 \end{listing}
 
-\subsubsection{Lista delle attività}
-Il primo degli endpoints impostato riguarda la lista di tutte le attività che il sistema imparerà a riconoscere.
-
-Come è mostrato nel codice \ref{listing:response-activities}, la risposta di una chiamata a questo endpoint fornisce una lista 
-di tutte le attività classificabili, ognuna contenente 
+\noindent Gli endpoints che ho previsto sono riservati ad ottenere informazioni su
 \begin{itemize}
-    \item il proprio identificativo numerico
-    \item il nome
-    \item le traduzioni nelle lingue ammesse
-    \item il tempo, in secondi, indicante la durata necessaria per l'addestramento
-    \item i sensori (tra i due ammessi) da abilitare durante l'addestramento
+    \item la lista delle attività classificabili
+    \item la lista delle posizioni previste
+    \item un modello per la richiesta di informazioni aggiuntive
 \end{itemize}
 
+
 \newpage
+\subsubsection{Lista delle attività}
+Una richiesta al primo endpoint fornisce la lista di tutte le attività classificabili, nonché di ulteriori informazioni associate ad esse.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/api/activities.json}
     \caption{Esempio di risposta dell'endpoint delle attività}
@@ -78,7 +91,6 @@ di tutte le attività classificabili, ognuna contenente
 \subsubsection{Lista delle posizioni del dispositivo}
 Il secondo endpoint fornisce la lista di tutte le posizioni in cui può essere posizionato il dispositivo durante l'esecuzione 
 di una analisi o di un apprendimento.
-
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/api/positions.json}
     \caption{Esempio di risposta dell'endpoint delle posizioni}
@@ -89,7 +101,6 @@ di una analisi o di un apprendimento.
 \subsubsection{Modello per la richiesta di informazioni aggiuntive}
 Il terzo endpoint fornisce una struttura per la generazione sull'applicazione di un modulo per la richiesta di dati aggiuntivi. 
 Ne discuteremo meglio nel capitolo \ref{chapter:app}.
-
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/api/form.json}
     \caption{Esempio di risposta dell'endpoint sui dati aggiuntivi}
@@ -147,10 +158,7 @@ Come mostrato nel codice \ref{listing:example-message-learning}, oltre alle info
     \item il sensore di movimento che ha generato i valori ottenuti
     \item un valore temporale (\textit{timestamp})
     \item la posizione del telefono selezionata durante l'attività in corso
-\end{itemize}
-e, in aggiunta, nel caso dell'apprendimento\dots
-\begin{itemize}
-    \item l'attività che si sta svolgendo
+    \item l'attività che si sta svolgendo (solo nel caso dell'apprendimento)
 \end{itemize}
 
 \begin{listing}[H] 

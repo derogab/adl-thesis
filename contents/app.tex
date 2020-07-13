@@ -20,7 +20,7 @@ con questo sistema operativo.
 I linguaggi utilizzati per lo sviluppo sono stati \textit{Java} per quanto riguarda l'aspetto programmativo, 
 mentre \textit{XML} per tutti i layout.
 
-\subsubsection{Traduzioni}
+\subsubsection{Internazionalizzazione}
 L'intero applicativo è dotato di supporto multilingua: italiano e inglese.
 
 
@@ -155,7 +155,7 @@ si ritenesse rilevante il loro valore per la classificazione.
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.1019]{assets/images/screenshots/3a_Init.jpg}    
-    \caption{Il modulo di inserimento dati generato programmativamente}
+    \caption{Il modulo di inserimento dati generato programmaticamente}
     \label{fig:screenshots_personal}
 \end{figure}
 
@@ -166,7 +166,7 @@ Ritengo opportuno soffermarmi maggiormente sulla generazione del layout di quest
 
 Malgrado agli occhi dell'utilizzatore appaia come un semplice modulo di inserimento dati, 
 la generazione di ogni componente dello stesso avviene in modo dinamico.
-L'intero modulo è generato programmativamente a partire dalle informazioni ricevute in risposta da una richiesta al relativo endpoint delle API. 
+L'intero modulo è generato programmaticamente a partire dalle informazioni ricevute in risposta da una richiesta al relativo endpoint delle API. 
 
 Questa opportunità permette ad un amministratore di sistema di variare le informazioni richieste
 senza dover rilasciare un'aggiornamento dell'applicazione.
@@ -214,20 +214,20 @@ classe \textit{CountDownTimer} \cite{countdown} offerta direttamente da Android.
 \noindent Entrambi i timer implementati (\textit{timer di preparazione} e \textit{timer di apprendimento}) non hanno un tempo stabilito in partenza. 
 
 I secondi utili per la preparazione sono settabili dall'utente tra le impostazioni dell'applicazione, invece il tempo di 
-apprendimento è invece ottenuto tramite la relativa richiesta alle API e può dipendere dall'attività selezionata.
+apprendimento è ottenuto tramite la relativa richiesta alle API e può dipendere dall'attività selezionata.
 
 
 
 \section{Accesso alle API}
-Le richieste agli endpoint delle API, di cui abbiamo discusso le varie applicazioni per l'ottenimento delle informazioni utili, 
+Le richieste agli endpoint, di cui abbiamo discusso le varie applicazioni per l'ottenimento delle informazioni preliminari, 
 sono fatte utilizzando la libreria Retrofit. 
 
-Con l'opportuna implementazione di alcune classi associabili $1:1$ ai dati che ci si aspetta dalle risposte delle API
-questa libreria permette di ottenere facilmente le informazioni desiderate.
+Implementando delle classi Java che modellano la struttura delle risposte dell'API si riescono ad ottenere facilmente 
+tutte le informazioni richieste.
 
 \subsubsection{Retrofit}
-Retrofit \cite{retrofit} è una libreria open source \textit{nata per trasformare una richiesta ad una REST API 
-in una Java Interface}.
+Retrofit \cite{retrofit} è una libreria open source nata per trasformare una richiesta ad una RESTful API 
+in una \textit{Java Interface}.
 
 
 \newpage
@@ -296,16 +296,17 @@ socket = new Socket(DESTINATION, PORT);
 \end{listing}
 
 \subsubsection{Invio di un messaggio}
-Una volta attiva la connessione è attiva, si può procedere alll'invio dei dati ogni qual volta il sistema 
-operativo notifica un cambiamento di stato dei sensori mediante l'apposito callback 
-di cui abbiamo visto l'implementazione.
+Una volta attivata la connessione si può procedere all'invio dei dati ogni qual volta il sistema 
+operativo notifica un cambiamento di stato dei sensori. All'interno dell'apposito callback, visto in precedenza, è
+richiamato il metodo per l'invio dei messaggi.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/connection/send.java}
     \caption{Implementazione dell'invio di un messaggio}
 \end{listing}
 
+\newpage
 \subsubsection{Ricezione di un messaggio}
-La ricezione delle risposte da parte del server avviene invece rimanendo in ascolto 
+La ricezione delle risposte da parte del server avviene invece banalmente rimanendo in ascolto 
 dei messaggi in ricezione.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/connection/receive.java}
@@ -313,7 +314,8 @@ dei messaggi in ricezione.
 \end{listing}
 \vspace{5mm} %5mm vertical space
 \noindent Ogni messaggio ricevuto viene elaborato in base alla tipologia. Alcuni di essi rappresentano solo una conferma di avvenuta 
-connessione o di corretta ricezione dei messaggi. Altri invece contengono informazioni da mostrare direttamente all'utente.
+connessione o di corretta ricezione dei messaggi inviati. Altri contengono informazioni da mostrare direttamente all'utente.
 
 \vspace{5mm} %5mm vertical space
-Nel codice \ref{listing:example-message-prediction} di esempio è mostrato uno dei messaggi ricevibili dall'applicazione in questa fase.
+In precedenza, nel codice \ref{listing:example-message-prediction}, abbiamo visto uno dei messaggi inviati dal \textit{messaggero} come risposta. 
+Tutti i messaggi di questo genere sono ricevuti dall'applicazione in questa fase.

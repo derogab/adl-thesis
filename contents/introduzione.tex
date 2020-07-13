@@ -58,14 +58,14 @@ le attività svolte nella vita reale non sono perfettamente suddivisibili per es
 potrebbero svolgere una uguale attività in modi differenti, non si ha nemmeno una corrispondenza biunivoca tra un insieme di dati e l'attività \cite{framework_long_term_data_har}.
 
 
-
+\newpage
 \section{Obiettivo e panoramica del progetto}
 Lo scopo del progetto è quindi lo sviluppo di un classificatore di ADLs in grado di interagire con una applicazione
 Android.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.41]{assets/images/overview.png}
+    \includegraphics[scale = 0.50]{assets/images/overview.png}
     \caption{Panoramica del progetto}
     \label{fig:overview}
 \end{figure}
@@ -73,14 +73,12 @@ Android.
 \subsubsection{Applicazione}
 L'applicazione permette, mediante l'utilizzo dei principali sensori inerziali del dispositivo, la raccolta dei dati che saranno poi elaborati 
 remotamente. Si occupa inoltre di fornire all'utente un riscontro dell'attività ipotizzata in fase di analisi.
-\subsubsection{Ricevitore}
-Chiameremo \textit{ricevitore} il componente che si occupa di gestire ed immagazzinare i dati ricevuti dall'applicazione. 
-Tra i suoi compiti anche quello di fornire eventuali risposte.
+\subsubsection{RESTful Web API}
+Useremo delle RESTful Web API personalizzate come fonte di informazioni iniziali.
+\subsubsection{Messaggero}
+Chiameremo \textit{messaggero} il componente server che si occupa dello scambio dati con il client. Tra i suoi compiti 
+quello di immagazzinare i dati ricevuti e fornire le risposte.
 \subsubsection{Classificatore}
 Il classificatore gestisce la mole di valori ottenuta 
-dall'applicazione tentando di eseguire il riconoscimento vero e proprio delle attività 
+tentando di eseguire il riconoscimento vero e proprio delle attività 
 per poi restituire l'ipotesi formulata.
-\subsubsection{Rest Web API}
-Sono state aggiunte delle RESTful Web API utilizzate come fonte iniziale di informazioni. 
-Vedremo essere indispensabili per rendere l'intero sistema programmabile in modo dinamico, almeno per quanto riguarda 
-tutto ciò che è impostabile da un amministratore in fase di avvio.

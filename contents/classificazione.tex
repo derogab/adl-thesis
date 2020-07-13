@@ -13,7 +13,7 @@ pur mantenendo pieno supporto alle librerie di più basso livello (es. Tensorflo
 
 \section{Apprendimento e Test}
 Un classificatore basa le sue predizioni sui modelli che riesce a ricavare dall'insieme di informazioni che ha a disposizione.
-Nel nostro caso l'insieme di queste informazioni è contenuto nei file con i valori ricevuti dall'applicazione.
+Nel nostro caso l'insieme di queste informazioni è contenuto nei file CSV nei quali sono salvati i dati ricevuti dall'applicazione.
 
 
 \subsection{Caricamento dei dati}
@@ -36,8 +36,8 @@ L'intero dataset contiene un ampio numero di record, ognuno dei quali è compost
     \item la posizione del dispositivo
     \item la relativa attività
 \end{itemize}
-Come si può notare i valori contenuti in un singolo record corrispondono a quelli inviati dall'applicazione 
-in un messaggio durante la raccolta dei dati di apprendimento,
+Come si può notare i valori contenuti in un record hanno corrispondenza $1:1$ con quelli 
+inviati dall'applicazione in un singolo messaggio durante l'apprendimento,
 eccezion fatta per il tipo di sensore già utilizzato per la divisione preliminare.
 
 \begin{listing}[H] 
@@ -173,7 +173,7 @@ una rete neurale che abbia
 \begin{itemize}
     \item in input il formato dei dati appena generato
     \item 5 strati di 100 nodi connessi
-    \item in output il calcolo di propabilità per ogni classe
+    \item in output il calcolo di probabilità per ogni classe
 \end{itemize}
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/dnn_create.py}
