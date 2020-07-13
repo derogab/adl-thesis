@@ -16,12 +16,15 @@ le versioni maggiori o uguali ad Android 4.1 rilasciato nel 2012.
 Al momento della stesura di questa relazione corrisponde ad assicurare il funzionamento dell'app sul 99,8\% dei dispositivi 
 con questo sistema operativo.
 
-\subsubsection{Linguaggi di sviluppo}
-I linguaggi utilizzati per lo sviluppo sono stati \textit{Java} per quanto riguarda l'aspetto programmativo, 
-mentre \textit{XML} per tutti i layout.
-
 \subsubsection{Internazionalizzazione}
 L'intero applicativo è dotato di supporto multilingua: italiano e inglese.
+
+\subsubsection{Linguaggi di sviluppo}
+I linguaggi utilizzati sono stati 
+\begin{itemize}
+    \item \textit{Java} per lo sviluppo dei processi software
+    \item \textit{XML} per tutti i layout
+\end{itemize}
 
 
 \newpage
@@ -29,8 +32,8 @@ L'intero applicativo è dotato di supporto multilingua: italiano e inglese.
 L'applicazione presenta un'interfaccia minimale sviluppata secondo le linee guida dell'ormai noto Material Design.
 
 \subsubsection{Material Design}
-Con Material Design \cite{material} si intende un linguaggio visivo che \textit{sintetizza i principi classici 
-del buon design utilizzando le nuove innovazioni della tecnologia e della scienza}.
+Con Material Design \cite{material} si intende un linguaggio visivo che sintetizza i principi classici 
+del buon design utilizzando le nuove innovazioni della tecnologia e della scienza.
 
 L'intero linguaggio si basa sul concetto fisico di "Materiale" di cui si vuole effettuare una trasposizione nel 
 design di tutte le caratteristiche (luci, ombre, etc.) che lo definiscono nel mondo reale.
@@ -100,10 +103,14 @@ La sezione di apprendimento consente di incrementare l'insieme di informazioni a
 Si vogliono raccogliere dati inerziali di precise attività su cui, come vedremo nel capitolo \ref{chapter:classification}, la rete neurale si baserà per 
 la generazione di modelli sempre più accurati.
 
+\vspace{5mm} %5mm vertical space
+
 Il processo è simile a quanto appena visto. La differenza consiste nel fatto che alle informazioni ottenute dai sensori è 
 aggiunta l'attività selezionata manualmente dall'utente.
 
-In questa fase si da piena fiducia all'utilizzatore sulla correttezza dei dati inseriti.
+\vspace{5mm} %5mm vertical space
+
+In questa fase si da piena fiducia all'utilizzatore sulla correttezza dei dati inseriti e sull'attività svolta.
 
 \subsubsection{Fase 1: Inizializzazione}
 In una prima fase l'applicazione richiede in autonomia alle API le informazioni di cui necessita. Si cercano
@@ -113,8 +120,7 @@ In una prima fase l'applicazione richiede in autonomia alle API le informazioni 
 \end{itemize}
 È immediato ottenere tali informazioni mediante richieste ai due endpoint relativi, i cui esempi di risposta sono mostrati nei codici 
 \ref{listing:response-activities} e \ref{listing:response-positions}.
-
-Una volta avuta le risposte l'utente ha la possibilità di selezionare 
+Una volta ricevute le risposte l'utente ha la possibilità di selezionare 
 \begin{itemize}
     \item la posizione in cui desidera tenere il dispositivo durante l'esecuzione dell'attività.
     \item l'attività che ha intenzione di addestrare
@@ -123,7 +129,7 @@ In seguto a queste scelte l'apprendimento può essere avviato.
 
 \subsubsection{Fase 2: Preparazione}
 Anche in questo frangente sarà inizializzato un servizio in foreground \cite{services} che si occuperà di svolgere 
-tutte le azioni necessarie per le fasi seguenti e la UI continuerà ad essere aggiornata con le informazioni ricevute da questo servizio.
+tutte le azioni necessarie per le fasi seguenti e la UI continuerà ad essere aggiornata con le informazioni ricevute da esso.
 
 Nuovamente come prima cosa viene contattato il server per stabilire una connessione TCP ed una volta ricevuta risposta affermativa
 sarà avviato il conto alla rovescia utile come \textit{tempo di preparazione}.
@@ -131,7 +137,7 @@ sarà avviato il conto alla rovescia utile come \textit{tempo di preparazione}.
 \subsubsection{Fase 3: Apprendimento}
 Allo scadere del tempo sono avviati in parallelo un ulteriore countdown e tutti i sensori per la raccolta dei dati.
 
-Il secondo conto alla rovescia indica il \textit{tempo di esecuzione} necessario. I secondi previsti potrebbero differire tra le diverse attività, 
+Il secondo conto alla rovescia indica il \textit{tempo di apprendimento} necessario. I secondi previsti potrebbero differire tra le diverse attività, 
 in base alle informazione ottenute nella prima fase. 
 
 Fino allo scadere del tempo tutti i dati raccolti dai sensori sono inviati al \textit{server} di cui abbiamo precedentemente discusso.
@@ -169,11 +175,11 @@ la generazione di ogni componente dello stesso avviene in modo dinamico.
 L'intero modulo è generato programmaticamente a partire dalle informazioni ricevute in risposta da una richiesta al relativo endpoint delle API. 
 
 Questa opportunità permette ad un amministratore di sistema di variare le informazioni richieste
-senza dover rilasciare un'aggiornamento dell'applicazione.
+senza dover rilasciare un aggiornamento dell'applicazione.
 
 \vspace{5mm} %5mm vertical space
 
-Per facilitarne la comprensione è possibile vederne un'applicazione in un esempio. La risposta di esempio mostrata nel codice 
+Per facilitarne la comprensione è possibile vederne l'applicazione in un esempio. La risposta di esempio mostrata nel codice 
 \ref{listing:response-form} è in grado di generare il layout di figura \ref{fig:screenshot_layout_from_code}.
 
 \begin{figure}[H]
@@ -189,7 +195,7 @@ Per facilitarne la comprensione è possibile vederne un'applicazione in un esemp
 Dal funzionamento che abbiamo appena visto è intuibile che l'app possa essere utilizzata con il dispositivo situato in posizioni che non permetterebbero
 un collegamento visivo diretto. Quando la posizione selezionata è, per esempio, nelle tasche.
 
-Tale situazione renderebbe impossibile l'accesso alle informazioni relative al progresso dell'attività in corso di esecuzione, che sia 
+Tale situazione renderebbe impossibile l'accesso alle informazioni relative al progresso dell'attività in corso, che sia 
 un'analisi o un apprendimento.
 Questa eventualità ha reso necessaria l'implementazione di un feedback sonoro realizzato mediante le librerie 
 di sintetizzazione vocale per il \textit{text to speech} \cite{tts} offerte da Android.
@@ -197,6 +203,7 @@ di sintetizzazione vocale per il \textit{text to speech} \cite{tts} offerte da A
 Oltre al feedback visivo è offerto quindi un feedback sonoro per tutte le informazioni rilevanti, come l'inizio e la fine dell'attività, 
 il conto alla rovescia ed i risultati dell'attività ipotizzata.
 
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/voice.java}
     \caption{Implementazione del text to speech in Android}
@@ -213,7 +220,7 @@ classe \textit{CountDownTimer} \cite{countdown} offerta direttamente da Android.
 \end{listing}
 \noindent Entrambi i timer implementati (\textit{timer di preparazione} e \textit{timer di apprendimento}) non hanno un tempo stabilito in partenza. 
 
-I secondi utili per la preparazione sono settabili dall'utente tra le impostazioni dell'applicazione, invece il tempo di 
+Il tempo utile per per la preparazione è settabile dall'utente tra le impostazioni dell'applicazione, invece il tempo di 
 apprendimento è ottenuto tramite la relativa richiesta alle API e può dipendere dall'attività selezionata.
 
 
@@ -238,7 +245,7 @@ Entrambi presentano gli stessi valori informativi (i tre assi x, y, z), pertanto
 
 \subsection{Attivazione dei sensori}
 I sensori del dispositivo sono gestiti direttamente dal sistema operativo. Pertanto Android rende disponibile 
-un gestore (\textit{SensorManager} \cite{sensor_manager}) per permettere di richiederne l'attivazione e la disattivazione.
+un gestore (\textit{SensorManager} \cite{sensor_manager}) per richiederne l'attivazione e la disattivazione.
 
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors/start_sensors.java}
@@ -251,16 +258,19 @@ un gestore (\textit{SensorManager} \cite{sensor_manager}) per permettere di rich
     \label{listing:sensor-deactivation}
 \end{listing}
 
+\vfill
 \subsubsection{Frequenza di campionamento}
-Ho scelto una frequenza di campionamento di $20$ Hz che corrisponde ad avere una acquisizione 
+\label{paragraph:sampling_rate}
+Ho scelto una frequenza di campionamento di $20$ Hz, che corrisponde ad avere una acquisizione 
 ogni 
 $$T_c = \frac{1}{20} = 0.5 s = 50ms $$
 
 \vspace{5mm} %5mm vertical space
 \noindent Si può notare come $50ms$ sia proprio il periodo di campionamento impostato 
-nel codice \ref{listing:sensor-activation} all'attivazione dei sensori.
+all'attivazione dei sensori nel codice \ref{listing:sensor-activation}.
 
 
+\newpage
 \subsection{Estrazione dei dati inerziali}
 Dopo l'attivazione dei sensori il sistema operativo richiama una specifica funzione di \textit{callback} ogni volta 
 che si realizza un evento, ovvero ad ogni nuova acquisizione.
@@ -269,9 +279,9 @@ che si realizza un evento, ovvero ad ogni nuova acquisizione.
 callback con l'opportuna gestione dei dati inerziali ottenuti.
 
 \subsubsection{Callback}
-Una callback è una determinata funzione richiamata dal sistema operativo al verificarsi di un determinato evento.
+Una callback è una specifica funzione richiamata dal sistema operativo al verificarsi di un determinato evento.
 Consente di implementare una gestione personalizzata dell'evento che l'ha invocata.
-
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors.java}
     \caption{Implementazione del callback dei sensori}

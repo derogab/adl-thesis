@@ -90,22 +90,22 @@ della suddivisione per attività dei dati presenti.
 
 \subsubsection{Grafici delle attività}
 Per ogni attività è inoltre possibile ottenere una visualizzazione grafica. Questi grafici ci permettono di comprendere meglio le differenze 
-tra le varie attività sulla base dei valori inerziali ottenuti senza dover analizzare matematicamente i valori.
+tra le varie attività sulla base dei valori inerziali ottenuti, senza dover analizzare matematicamente i valori.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.45]{assets/images/classifications/accelerometer/right_hand/jumps-right-hand-acc.png}
-    \caption{Dati accelerometrici durante l'attività "Salti"}
+    \caption{Esempio di dati accelerometrici durante l'attività "Salti"}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.45]{assets/images/classifications/accelerometer/right_hand/run-right-hand-acc.png}
-    \caption{Dati accelerometrici durante l'attività "Corsa"}
+    \caption{Esempio di dati accelerometrici durante l'attività "Corsa"}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.45]{assets/images/classifications/accelerometer/right_hand/walk-right-hand-acc.png}
-    \caption{Dati accelerometrici durante l'attività "Camminata"}
+    \caption{Esempio di dati accelerometrici durante l'attività "Camminata"}
 \end{figure}
 
 
@@ -118,51 +118,50 @@ l'\textit{apprendimento} e quelli che saranno utilizzati per il \textit{test}.
 
 \vspace{5mm} %5mm vertical space
 
-Personalmente ho scelto una semplice suddivisione che prevede l'utilizzo di $\frac{4}{5}$ dei dati per il \textit{train} e 
-la parte restante ($\frac{1}{5}$) per il \textit{test}.
+Personalmente ho scelto una semplice suddivisione che prevede l'utilizzo di $\frac{4}{5}$ dei dati per le operazioni di \textit{training} e 
+la parte restante ($\frac{1}{5}$) per il \textit{test} finale.
 
 
 \subsection{Preparazione dei dati}
 \label{section:learning-data-preparation}
 A questo punto è necessario organizzare i dati in nostro possesso in modo che 
 ad una serie di caratteristiche (i tre assi x, y, z ed il valore temporale) sia associabile un'etichetta 
-rappresentate l'attività. 
+rappresentante l'attività. 
 
 \subsubsection{Trasformazione del valore temporale}
-Una delle quattro caratteristiche che intendiamo utilizzare è il valore temporale.
-
-I file CSV contenevano però i \textit{timestamp}s che rappresentano il tempo assoluto, 
+Oltre al valore dei tre assi (x, y, z), la quarta caratteristica che intendiamo utilizzare è il valore temporale.
+Nei file CSV però questa informazione è data sotto forma di \textit{timestamp}s che rappresentano il tempo assoluto, 
 ovvero il momento esatto di svolgimento dell'attività durante la raccolta dei dati.
 Questo valore non è in alcun modo rilevante nella classificazione, ma a partire da esso è possibile ricavare il tempo trascorso 
 tra l'acquisizione di una tripla di dati (x, y, z) e l'acquisizione di quella immediatamente successiva.
 Posso presumere una somiglianza in tali distanze temporali durante lo svolgimento di una uguale attività.
 
 \subsubsection{Normalizzazione dei dati}
-La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo quindi anche una semplice normalizzazione delle caratteristiche.
+La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo quindi anche una semplice normalizzazione delle quattro caratteristiche.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/normalize_data.py}
     \caption{Banale normalizzazione dei dati}
 \end{listing}
 
 \newpage
-\subsubsection{Creazione dei segmenti e delle etichette}
+\subsubsection{Creazione delle finestre e delle etichette}
 La parte principale dell'intero adattamento risulta essere quella che suddivide i dati in un formato che possa 
 realizzare l'associazione tra una serie di caratteristiche e una etichetta.
 
 Per realizzare ciò i record sono presi a gruppi, anche sovrapposti (così come si vede in figura \ref{fig:create_segments_and_labels}). 
 Ogni raggruppamento sarà caratterizzato da 
 \begin{itemize}
-    \item una finestra di record contenenti le sole caratteristiche
+    \item una finestra di più record contenenti le sole caratteristiche
     \item l'etichetta più frequente
 \end{itemize}
 
+\vfill
 \begin{figure}[H]
   \centering
   \includesvg[scale = 0.70]{assets/graphs/create_segments_and_labels.svg}
   \caption{Creazione delle finestre e delle etichette}
   \label{fig:create_segments_and_labels}
 \end{figure}
-
 \begin{figure}[H]
   \centering
   \includesvg[scale = 1.0]{assets/graphs/segments_and_labels.svg}
@@ -170,7 +169,7 @@ Ogni raggruppamento sarà caratterizzato da
   \label{fig:segments_and_labels}
 \end{figure}
 
-Alla fine del processo ho quindi ottenuto una serie di finestre di dati a cui posso singolarmente associare una determinata
+Alla fine del processo ho quindi ottenuto una serie di finestre di record a cui posso singolarmente associare una determinata
 etichetta identificativa.
 
 \vfill
@@ -180,15 +179,14 @@ etichetta identificativa.
 \end{listing}
 
 \subsubsection{Ampiezza delle finestre}
-Ho implementato una finestra di caratteristiche capace di contenere $80$ record. Ricordando la frequenza di 
+Ho implementato una finestra capace di contenere fino a $80$ record. Ricordando la frequenza di 
 campionamento dei sensori di $f_c = 20$ Hz e il relativo periodo di campionamento di $T_c = 50ms = 0.5s$, ogni finestra rappresenta i dati ottenuti in 
-$$T_f = 0.5s * 80 = 4s$$
+$$T_{finestra} = 0.5s * 80 = 4s$$
 
 \subsubsection{Sovrapposizione delle finestre}
 Durante la lettura di tutti i record da convertire, la finestra scorre in avanti di $40$ passi alla volta.
-
 Essendo $40$ inferiore alla dimensione scelta per l'ampiezza della finestra ($80$), si genera una sovrapposizione (\textit{overlap}).
-Perciò la quasi totalità dei record (ad eccezione di quelli agli estremi) comparirà in 2 finestre distinte.
+Con le nostre impostazioni la quasi totalità dei record (ad eccezione di quelli agli estremi) comparirà in 2 finestre distinte.
 
 \vfill
 \begin{figure}[H]
@@ -225,7 +223,7 @@ Al termine dell'attività di apprendimento il modello è stato generato. Ed è p
 riassuntivo dei risultati ottenuti.
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.60]{assets/images/classifications/accelerometer/right_hand/model-right-hand-acc.png}
+    \includegraphics[scale = 0.80]{assets/images/classifications/accelerometer/right_hand/model-right-hand-acc.png}
     \caption{Statistiche del modello ottenuto}
 \end{figure}
 
@@ -256,7 +254,7 @@ di cui si conosceva il corretto risultato.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.70]{assets/images/classifications/accelerometer/right_hand/confusion-matrix-right-hand-acc.png}
+    \includegraphics[scale = 0.80]{assets/images/classifications/accelerometer/right_hand/confusion-matrix-right-hand-acc.png}
     \caption{Matrice di confusione del modello ottenuto}
 \end{figure}
 
@@ -299,32 +297,31 @@ Per prima cosa si attua la trasformazione del valore temporale dal significato a
 Ed in seguito si normalizzano le 4 caratteristiche.
 
 
-\subsubsection{Creazione dei segmenti}
-L'insieme dei record è nuovamente preso a gruppi, anche sovrapposti, per la creazione dei segmenti.
+\subsubsection{Creazione delle finestre}
+L'insieme dei record è nuovamente preso a gruppi, anche sovrapposti, per la creazione delle finestre contenenti i 
+record con le sole caratteristiche.
 
+\vfill
 \begin{figure}[H]
     \centering
-    \includesvg[scale = 0.75]{assets/graphs/create_segments.svg}
-    \caption{Creazione dei segmenti}
+    \includesvg[scale = 0.85]{assets/graphs/create_segments.svg}
+    \caption{Creazione delle finestre}
     \label{fig:create_segments}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includesvg[scale = 1.0]{assets/graphs/segments.svg}
-    \caption{Risultato dopo la creazione dei segmenti}
+    \caption{Risultato dopo la creazione delle finestre}
     \label{fig:segments}
 \end{figure}
 
 
 
 \subsection{Ipotesi dell'etichetta}
-A questo punto il lavoro è delegato alla rete neurale che ricevendo in input l'insieme dei segmenti 
+A questo punto il lavoro è delegato alla rete neurale che ricevendo in input l'insieme delle finestre di record  
 e con l'ausilio del modello selezionato fornisce in output l'insieme delle etichette ipotizzate.
-Il risultato ottenuto è un'insieme di etichette, ognuna associata ad un segmento. 
-
-Per ricavare l'etichetta assoluta associata alle caratteristiche date in input procedo banalmente 
-considerando quella che compare più volte.
+Il risultato ottenuto è un'insieme di etichette, ognuna associata ad una precisa finestra. 
 
 \begin{figure}[H]
     \centering
@@ -332,3 +329,6 @@ considerando quella che compare più volte.
     \caption{Processo di predizione}
     \label{fig:prediction}
 \end{figure}
+
+\noindent Per ricavare l'etichetta assoluta associata alle caratteristiche date in input procedo banalmente 
+considerando quella che compare più volte.

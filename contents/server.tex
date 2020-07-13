@@ -7,12 +7,12 @@ Il lavoro del server è facilmente scomponibile in due parti, la gestione dei da
 ad un amministratore l'interazione con il sistema.
 
 Si è scelto di sviluppare il tutto con il linguaggio Python e di inserire per comodità il software in due differenti contenitori Docker, in modo da 
-mantenere differenziate queste due parti anche a livello programmativo.
+mantenere differenziate queste due parti anche a livello di programmazione.
 
 \subsubsection{Docker}
 Docker \cite{docker} è un progetto open-source in grado di effettuare il deploy di applicazioni all'interno di contenitori software che grazie alla
 virtualizzazione si trovano ad un livello di astrazione differente dal sistema host. Questa tecnica è molto utile quando si vuole
-mantenere separati l'installazione di un'applicativo dal sistema ospitante.
+mantenere separati l'installazione di un applicativo dal sistema ospitante.
 
 
 
@@ -25,7 +25,7 @@ Una Web API è un'interfaccia composta da un insieme di \textit{endpoints} pubbl
 o eseguire specifici compiti mediante un processo di richiesta - risposta tra client e server. 
 
 \subsubsection{Architettura REST}
-REST (\textit{Representational State Transfer}) è uno stile architetturale. 
+REST (\textit{Representational State Transfer}) è invece un preciso stile architetturale. 
 
 Una RESTful Web API, secondo le specifiche, è dotata di
 \begin{itemize}
@@ -44,7 +44,7 @@ distribuzione delle modifiche senza la necessità di rilasciare un aggiornamento
 
 \subsection{Protocollo e formato}
 Tutte le richieste e le risposte utilizzano per lo scambio dati il protocollo HTTP, come da specifica REST.
-I dati sono trasmessi con il formato JSON, uno standard che sfrutta una notazione chiave-valore facilmente leggibile.
+I dati sono trasmessi con il formato JSON.
 
 \subsubsection{HTTP}
 HTTP (\textit{HyperText Transfer Protocol}) è un protocollo a livello applicativo per il trasferimento dati. È utilizzato principalmente 
@@ -59,7 +59,7 @@ leggibile sia da "un umano" che da un calcolatore.
 \subsection{Endpoints}
 Gli endpoints sono i punti di accesso mediante i quali il software esterno 
 è in grado di accedere alle informazioni. La richiesta ad uno specifico URL 
-deve saper rispondere con i dati e le modalità che ci si aspetta.
+deve restituire una risposta con i dati e le modalità che ci si aspetta.
 
 \begin{listing}[H] 
     \begin{minted}[frame=single,framesep=10pt]{text}
@@ -82,6 +82,7 @@ http://IP_ADDRESS:PORT/form
 \newpage
 \subsubsection{Lista delle attività}
 Una richiesta al primo endpoint fornisce la lista di tutte le attività classificabili, nonché di ulteriori informazioni associate ad esse.
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/api/activities.json}
     \caption{Esempio di risposta dell'endpoint delle attività}
@@ -92,6 +93,7 @@ Una richiesta al primo endpoint fornisce la lista di tutte le attività classifi
 \subsubsection{Lista delle posizioni del dispositivo}
 Il secondo endpoint fornisce la lista di tutte le posizioni in cui può essere posizionato il dispositivo durante l'esecuzione 
 di una analisi o di un apprendimento.
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/api/positions.json}
     \caption{Esempio di risposta dell'endpoint delle posizioni}
@@ -102,6 +104,7 @@ di una analisi o di un apprendimento.
 \subsubsection{Modello per la richiesta di informazioni aggiuntive}
 Il terzo endpoint fornisce una struttura per la generazione sull'applicazione di un modulo per la richiesta di dati aggiuntivi. 
 Ne discuteremo meglio nel capitolo \ref{chapter:app}.
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/api/form.json}
     \caption{Esempio di risposta dell'endpoint sui dati aggiuntivi}
@@ -135,33 +138,33 @@ In particolare la parte del software che si occupa di accettare le connessioni d
 discuteremo nel capitolo \ref{chapter:app}) e di immagazzinare i dati ottenuti.
 
 \subsection{Protocollo e formato}
-Avendo la necessità di trasmettere almeno un nuovo messaggio ogni $50ms$ per ogni sensore, la 
-connessione al \textit{modulo di comunicazione} avviene via socket mediante TCP. 
+Avendo la necessità di trasmettere almeno un nuovo messaggio ogni $50ms$ (come vedremo più avanti nel 
+paragrafo \ref{paragraph:sampling_rate}), la connessione al \textit{modulo di comunicazione} avviene via socket mediante TCP. 
 
 Trattandosi di un 
 protocollo di rete a livello di trasporto ci consente di avere una velocità 
 di trasmissione maggiore rispetto a quanto avremmo avuto con HTTP. 
 
-Per comodità si continua ad utilizzare il formato JSON anche in questo frangente per organizzare le informazioni durante lo scambio dati.
+Per comodità si continua ad utilizzare il formato JSON anche in questo frangente per l'organizzazione delle informazioni durante lo scambio dati.
 
 
 \subsection{Messaggi}
 Il \textit{modulo di comunicazione} deve gestire due tipi di richieste, quelle che inviano i dati per effettuarne l'apprendimento e quelle che inviano
-i dati in attesa di ricevere il risultato di una classificazione. Malgrado ciò la lettura dei messaggi ricevuti resta la medesima ed il 
+i dati in attesa di ricevere il risultato di una classificazione. Malgrado ciò la lettura dei messaggi resta la medesima ed il 
 valore per identificare la tipologia di richiesta è disponibile internamente alle informazioni.
 \vspace{5mm} %5mm vertical space
 \newline
-Come mostrato nel codice \ref{listing:example-message-learning}, oltre alle informazioni sul tipo di richiesta, un singolo messaggio contiene 
+Come mostrato nel codice \ref{listing:example-message-learning}, oltre all'informazione sul tipo di richiesta, un singolo messaggio contiene 
 \begin{itemize}
     \item un codice identificante un gruppo di messaggi
-    \item un indice indicante la progressione dei dati
+    \item un indice indicante la progressione dei dati in quel gruppo
     \item i valori dei 3 assi (x, y, z)
     \item il sensore di movimento che ha generato i valori ottenuti
     \item un valore temporale (\textit{timestamp})
     \item la posizione del telefono selezionata durante l'attività in corso
     \item l'attività che si sta svolgendo (solo nel caso dell'apprendimento)
 \end{itemize}
-
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/receiver/message.json}
     \caption{Esempio di messaggio ricevuto per l'apprendimento}
@@ -191,12 +194,12 @@ trattato nel capitolo \ref{chapter:classification}.
 
 
 \subsubsection{Messaggi di Analisi}
-Nel caso di ricezione di dati per l'analisi non si deve immagazzinare le informazioni ricevute. 
+Nel caso di ricezione di dati per l'analisi non si devono immagazzinare le informazioni ricevute. 
 L'obiettivo di questa fase è quello di fornire in risposta al client l'informazione che si aspetta.
 
 Alla ricezione di un numero minimo di record si avvia il processo di classificazione, trattato sempre nel capitolo \ref{chapter:classification}.
 L'ipotesi ottenuta dal classificatore sarà inviata come risposta.
-
+\vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{json}{assets/snippets/server/receiver/prediction.json}
     \caption{Esempio del messaggio di risposta con l'ipotesi formulata}
