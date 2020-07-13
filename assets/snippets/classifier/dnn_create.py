@@ -1,4 +1,4 @@
-# Create DNN
+# Create neural network
 model_m = Sequential()
 model_m.add(Dense(100, activation='relu')) # Layer 1
 model_m.add(Dense(100, activation='relu')) # Layer 2

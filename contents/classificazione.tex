@@ -20,8 +20,12 @@ i dati ricevuti dall'applicazione.
 \subsection{Caricamento dei dati}
 I file CSV sono organizzati come nell'esempio visto in figura \ref{fig:example-dataset-csv-accelerometer}.
 
+\vspace{5mm} %5mm vertical space
+
 È necessario ricordare che i dati ottenuti da differenti sensori sono stati immagazzinati dal \textit{modulo di comunicazione} in diversi file CSV. 
 Nel caso in esame sono quindi presenti due file, uno per l'accelerometro ed un secondo per il giroscopio.
+
+\vspace{5mm} %5mm vertical space
 
 Entrambi contengono la stessa tipologia di informazioni e sono strutturati in modo equivalente.
 Per semplificare la trattazione nelle procedure seguenti sarà considerato un singolo dataset, ricordando però di dover applicare tutti i 
@@ -38,8 +42,8 @@ L'intero dataset contiene un ampio numero di record, ognuno dei quali è compost
     \item la relativa attività
 \end{itemize}
 Come si può notare i valori contenuti in un record hanno corrispondenza $1:1$ con quelli 
-inviati dall'applicazione in un singolo messaggio durante l'apprendimento,
-eccezion fatta per il tipo di sensore già utilizzato per la divisione preliminare.
+inviati dall'applicazione in un singolo messaggio durante l'apprendimento. L'unica eccezione è 
+il relativo tipo di sensore, già utilizzato per la divisione preliminare.
 
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/read_csv.py}
@@ -57,7 +61,7 @@ una miglior classificazione \cite{umafall}.
 Dopo una prima valutazione che prevedeva l'utilizzo di questo dato come una semplice caratteristica informativa, ho deciso 
 di dare ad esso un'importanza maggiore. 
 
-Il maggior valore è derivato dalla decisione di partizionare i record presenti nel dataset in base alla relativa posizione. 
+Il maggior valore è derivato dalla decisione di partizionare nuovamente i record presenti nel dataset in base alla relativa posizione. 
 Tale scelta comporta la necessità di eseguire le procedure di \textit{train} e \textit{test} seguenti su tutte 
 le diverse partizioni e conseguentemente la creazione di un modello indipendente per ognuna di esse.
 
@@ -85,28 +89,29 @@ della suddivisione per attività dei dati presenti.
 \end{figure}
 
 \subsubsection{Grafici delle attività}
-Inoltre, di ogni attività è possibile utilizzare una visualizzazione grafica per meglio comprendere le differenze tra le attività anziché 
-basarsi solamente sulla lettura dei valori.
+Per ogni attività è inoltre possibile ottenere una visualizzazione grafica. Questi grafici ci permettono di comprendere meglio le differenze 
+tra le varie attività sulla base dei valori inerziali ottenuti senza dover analizzare matematicamente i valori.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.45]{assets/images/classifications/accelerometer/right_hand/jumps-right-hand-acc.png}
-    \caption{Dati accelerometrici durante l'attività "Salti" con il dispositivo nella mano destra}
+    \caption{Dati accelerometrici durante l'attività "Salti"}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.45]{assets/images/classifications/accelerometer/right_hand/run-right-hand-acc.png}
-    \caption{Dati accelerometrici durante l'attività "Corsa" con il dispositivo nella mano destra}
+    \caption{Dati accelerometrici durante l'attività "Corsa"}
 \end{figure}
 \begin{figure}[H]
     \centering
     \includegraphics[scale = 0.45]{assets/images/classifications/accelerometer/right_hand/walk-right-hand-acc.png}
-    \caption{Dati accelerometrici durante l'attività "Camminata" con il dispositivo nella mano destra}
+    \caption{Dati accelerometrici durante l'attività "Camminata"}
 \end{figure}
 
 
+\newpage
 \subsection{Partizionamento dei dati}
-La mole di dati considerata necessita un partizionamento per differenziare i dati che saranno utilizzati per 
+La mole di dati considerata necessita un ulteriore partizionamento per differenziare i dati che saranno utilizzati per 
 l'\textit{apprendimento} e quelli che saranno utilizzati per il \textit{test}.
 
 È indispensabile verificare che le partizioni non abbiano sovrapposizioni se non si vuole ottenere una valutazione dell'efficienza falsata.
@@ -125,20 +130,21 @@ rappresentate l'attività.
 
 \subsubsection{Trasformazione del valore temporale}
 Una delle quattro caratteristiche che intendiamo utilizzare è il valore temporale.
-I \textit{timestamp}s però rappresentano il tempo assoluto, 
-ovvero il momento esatto di svolgimento dell'attività durante la raccolta dei dati.
 
-Il momento esatto non è in alcun modo rilevante nella classificazione, ma a partire da questo è possibile ricavare il tempo trascorso 
+I file CSV contenevano però i \textit{timestamp}s che rappresentano il tempo assoluto, 
+ovvero il momento esatto di svolgimento dell'attività durante la raccolta dei dati.
+Questo valore non è in alcun modo rilevante nella classificazione, ma a partire da esso è possibile ricavare il tempo trascorso 
 tra l'acquisizione di una tripla di dati (x, y, z) e l'acquisizione di quella immediatamente successiva.
 Posso presumere una somiglianza in tali distanze temporali durante lo svolgimento di una uguale attività.
 
 \subsubsection{Normalizzazione dei dati}
-La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo una semplice normalizzazione sui dati delle caratteristiche.
+La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo quindi anche una semplice normalizzazione delle caratteristiche.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/normalize_data.py}
     \caption{Banale normalizzazione dei dati}
 \end{listing}
 
+\newpage
 \subsubsection{Creazione dei segmenti e delle etichette}
 La parte principale dell'intero adattamento risulta essere quella che suddivide i dati in un formato che possa 
 realizzare l'associazione tra una serie di caratteristiche e una etichetta.
@@ -146,28 +152,45 @@ realizzare l'associazione tra una serie di caratteristiche e una etichetta.
 Per realizzare ciò i record sono presi a gruppi, anche sovrapposti (così come si vede in figura \ref{fig:create_segments_and_labels}). 
 Ogni raggruppamento sarà caratterizzato da 
 \begin{itemize}
-    \item un segmento contenente i record con le sole caratteristiche
+    \item una finestra di record contenenti le sole caratteristiche
     \item l'etichetta più frequente
 \end{itemize}
 
 \begin{figure}[H]
   \centering
-  \includesvg[scale = 0.8]{assets/graphs/create_segments_and_labels.svg}
-  \caption{Creazione dei segmenti e delle etichette}
+  \includesvg[scale = 0.70]{assets/graphs/create_segments_and_labels.svg}
+  \caption{Creazione delle finestre e delle etichette}
   \label{fig:create_segments_and_labels}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includesvg[scale = 1.0]{assets/graphs/segments_and_labels.svg}
-  \caption{Risultato dopo la creazione dei segmenti e delle etichette}
+  \caption{Risultato dopo la creazione delle finestre e delle etichette}
   \label{fig:segments_and_labels}
 \end{figure}
 
-Alla fine del processo ho quindi ottenuto una serie di segmenti di dati a cui posso singolarmente associare una determinata
+Alla fine del processo ho quindi ottenuto una serie di finestre di dati a cui posso singolarmente associare una determinata
 etichetta identificativa.
 
+\subsubsection{Ampiezza delle finestre}
+Ho implementato una finestra di caratteristiche capace di contenere $80$ record. Ricordando la frequenza di 
+campionamento dei sensori di $f_c = 20$ Hz e il relativo periodo di campionamento di $T_c = 50ms = 0.5s$, ogni finestra rappresenta i dati ottenuti in 
+$$T_f = 0.5s * 80 = 4s$$
 
+\subsubsection{Sovrapposizione delle finestre}
+Durante la lettura di tutti i record da convertire, la finestra scorre in avanti di $40$ passi alla volta.
+
+Essendo $40$ inferiore alla dimensione scelta per l'ampiezza della finestra ($80$), si genera una sovrapposizione (\textit{overlap}).
+Perciò la quasi totalità dei record (ad eccezione di quelli agli estremi) comparirà in 2 finestre distinte.
+
+\begin{listing}[H] 
+    \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/create_segments_and_labels.py}
+    \caption{Creazione delle finestre e delle etichette}
+\end{listing}
+
+
+\newpage
 \subsection{Creazione della rete neurale}
 Una volta generati i dati nel formato supportato da \textit{keras} procedo alla creazione di 
 una rete neurale che abbia
@@ -178,7 +201,7 @@ una rete neurale che abbia
 \end{itemize}
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{python}{assets/snippets/classifier/dnn_create.py}
-    \caption{Creazione della DNN}
+    \caption{Creazione della rete neurale}
 \end{listing}
 Per poi procedere all'apprendimento.
 \begin{listing}[H] 
@@ -187,6 +210,7 @@ Per poi procedere all'apprendimento.
 \end{listing}
 
 
+\newpage
 \subsection{Statistiche del modello}
 Al termine dell'attività di apprendimento il modello è stato generato. Ed è possibile vedere un grafico 
 riassuntivo dei risultati ottenuti.
@@ -223,7 +247,7 @@ di cui si conosceva il corretto risultato.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale = 0.60]{assets/images/classifications/accelerometer/right_hand/confusion-matrix-right-hand-acc.png}
+    \includegraphics[scale = 0.70]{assets/images/classifications/accelerometer/right_hand/confusion-matrix-right-hand-acc.png}
     \caption{Matrice di confusione del modello ottenuto}
 \end{figure}
 
@@ -271,7 +295,7 @@ L'insieme dei record è nuovamente preso a gruppi, anche sovrapposti, per la cre
 
 \begin{figure}[H]
     \centering
-    \includesvg[scale = 0.8]{assets/graphs/create_segments.svg}
+    \includesvg[scale = 0.75]{assets/graphs/create_segments.svg}
     \caption{Creazione dei segmenti}
     \label{fig:create_segments}
 \end{figure}
