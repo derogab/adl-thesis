@@ -27,7 +27,7 @@ o eseguire specifici compiti mediante un processo di richiesta - risposta tra cl
 \subsubsection{Architettura REST}
 REST (\textit{Representational State Transfer}) è invece un preciso stile architetturale. 
 
-Una RESTful Web API, secondo le specifiche, è dotata di
+Una RESTful Web API, secondo le specifiche, è dotata di:
 \begin{itemize}
     \item un \textit{URI} di base (ad esempio, \textit{http://api.example.com/})
     \item metodi HTTP standard (GET, POST, PUT, PATCH e DELETE)
@@ -71,7 +71,7 @@ http://IP_ADDRESS:PORT/form
     \label{listing:endpoint-positions}
 \end{listing}
 
-\noindent Gli endpoints che ho previsto sono riservati ad ottenere informazioni su
+\noindent Gli endpoints che ho previsto sono riservati ad ottenere informazioni su:
 \begin{itemize}
     \item la lista delle attività classificabili
     \item la lista delle posizioni previste
@@ -154,7 +154,7 @@ i dati in attesa di ricevere il risultato di una classificazione. Malgrado ciò 
 valore per identificare la tipologia di richiesta è disponibile internamente alle informazioni.
 \vspace{5mm} %5mm vertical space
 \newline
-Come mostrato nel codice \ref{listing:example-message-learning}, oltre all'informazione sul tipo di richiesta, un singolo messaggio contiene 
+Come mostrato nel codice \ref{listing:example-message-learning}, oltre all'informazione sul tipo di richiesta, un singolo messaggio contiene: 
 \begin{itemize}
     \item un codice identificante un gruppo di messaggi
     \item un indice indicante la progressione dei dati in quel gruppo

@@ -111,9 +111,8 @@ tra le varie attività sulla base dei valori inerziali ottenuti, senza dover ana
 
 \newpage
 \subsection{Partizionamento dei dati}
-La mole di dati considerata necessita un ulteriore partizionamento per differenziare i dati che saranno utilizzati per 
+La mole di dati considerata necessita di un ulteriore partizionamento per differenziare i record che saranno utilizzati per 
 l'\textit{apprendimento} e quelli che saranno utilizzati per il \textit{test}.
-
 È indispensabile verificare che le partizioni non abbiano sovrapposizioni se non si vuole ottenere una valutazione dell'efficienza falsata.
 
 \vspace{5mm} %5mm vertical space
@@ -149,7 +148,7 @@ La parte principale dell'intero adattamento risulta essere quella che suddivide 
 realizzare l'associazione tra una serie di caratteristiche e una etichetta.
 
 Per realizzare ciò i record sono presi a gruppi, anche sovrapposti (così come si vede in figura \ref{fig:create_segments_and_labels}). 
-Ogni raggruppamento sarà caratterizzato da 
+Ogni raggruppamento sarà caratterizzato da: 
 \begin{itemize}
     \item una finestra di più record contenenti le sole caratteristiche
     \item l'etichetta più frequente
@@ -200,7 +199,7 @@ Con le nostre impostazioni la quasi totalità dei record (ad eccezione di quelli
 \newpage
 \subsection{Creazione della rete neurale}
 Una volta generati i dati nel formato supportato da \textit{keras} procedo alla creazione di 
-una rete neurale che abbia
+una rete neurale che abbia:
 \begin{itemize}
     \item in input il formato dei dati appena generato
     \item 5 strati di 100 nodi connessi
@@ -261,7 +260,7 @@ di cui si conosceva il corretto risultato.
 
 \section{Predizioni}
 Il processo di predizione consiste nell'ipotizzare, grazie ad un modello tra quelli generati, 
-l'etichetta più opportuna da assegnare ad un insieme di record contenenti
+l'etichetta più opportuna da assegnare ad un insieme di record contenenti:
 \begin{itemize}
     \item i valori ottenuti dal sensore
     \item il dato temporale
