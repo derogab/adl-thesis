@@ -193,7 +193,7 @@ Per facilitarne la comprensione è possibile vederne l'applicazione in un esempi
 \newpage
 \section{Feedback sonoro}
 Dal funzionamento che abbiamo appena visto è intuibile che l'app possa essere utilizzata con il dispositivo situato in posizioni che non permetterebbero
-un collegamento visivo diretto. Quando la posizione selezionata è, per esempio, nelle tasche.
+un collegamento visivo diretto. Ad esempio, quando la posizione selezionata è \textit{nelle tasche}.
 
 Tale situazione renderebbe impossibile l'accesso alle informazioni relative al progresso dell'attività in corso, che sia 
 un'analisi o un apprendimento.
@@ -239,7 +239,7 @@ in una \textit{Java Interface}.
 
 \newpage
 \section{Sensori di movimento}
-I sensori di movimento implementati sono \textbf{accelerometro} e \textbf{giroscopio}.
+I sensori di movimento utilizzati sono \textbf{accelerometro} e \textbf{giroscopio}.
 
 Entrambi presentano gli stessi valori informativi (i tre assi x, y, z), pertanto durante lo sviluppo sono stati gestiti in modo analogo.
 
@@ -275,7 +275,7 @@ all'attivazione dei sensori nel codice \ref{listing:sensor-activation}.
 Dopo l'attivazione dei sensori il sistema operativo richiama una specifica funzione di \textit{callback} ogni volta 
 che si realizza un evento, ovvero ad ogni nuova acquisizione.
 
-È quindi necessario implementare l'interfaccia \textit{SensorEventListener} \cite{sensor_listener} definendo il 
+È quindi necessario implementare l'interfaccia \textit{SensorEventListener} \cite{sensor_listener} definendo la 
 callback con l'opportuna gestione dei dati inerziali ottenuti.
 
 \subsubsection{Callback}
@@ -284,7 +284,7 @@ Consente di implementare una gestione personalizzata dell'evento che l'ha invoca
 \vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors.java}
-    \caption{Implementazione del callback dei sensori}
+    \caption{Implementazione della callback per gli eventi dei sensori}
     \label{listing:sensor-event-callback}
 \end{listing}
 
@@ -307,7 +307,7 @@ socket = new Socket(DESTINATION, PORT);
 
 \subsubsection{Invio di un messaggio}
 Una volta attivata la connessione si può procedere all'invio dei dati ogni qual volta il sistema 
-operativo notifica un cambiamento di stato dei sensori. All'interno dell'apposito callback, visto in precedenza, è
+operativo notifica un cambiamento di stato dei sensori. All'interno della callback implementata, vista in precedenza, è
 richiamato il metodo per l'invio dei messaggi.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/connection/send.java}
