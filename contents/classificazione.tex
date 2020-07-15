@@ -183,9 +183,12 @@ campionamento dei sensori di $f_c = 20$ Hz e il relativo periodo di campionament
 $$T_{finestra} = 0.5s * 80 = 4s$$
 
 \subsubsection{Sovrapposizione delle finestre}
-Durante la lettura di tutti i record da convertire, la finestra scorre in avanti di $40$ passi alla volta.
-Essendo $40$ inferiore alla dimensione scelta per l'ampiezza della finestra ($80$), si genera una sovrapposizione (\textit{overlap}).
-Con le nostre impostazioni la quasi totalità dei record (ad eccezione di quelli agli estremi) comparirà in 2 finestre distinte.
+Per evitare che la divisione in finestre separi a metà dei record adiacenti che sarebbero stati associati 
+ad una singola etichetta, si ricorre spesso alla sovrapposizione (\textit{overlap}).
+
+Durante la lettura di tutti i record da convertire, la finestra scorre in avanti 
+di $40$ passi alla volta. Essendo $40$ inferiore alla dimensione scelta per l'ampiezza della finestra ($80$), 
+la quasi totalità dei record (ad eccezione di quelli agli estremi) comparirà in 2 finestre distinte.
 
 \vfill
 \begin{figure}[H]
@@ -318,9 +321,10 @@ record con le sole caratteristiche.
 
 
 \subsection{Ipotesi dell'etichetta}
-A questo punto il lavoro è delegato alla rete neurale che ricevendo in input l'insieme delle finestre di record  
-e con l'ausilio del modello selezionato fornisce in output l'insieme delle etichette ipotizzate.
-Il risultato ottenuto è un'insieme di etichette, ognuna associata ad una precisa finestra. 
+A questo punto il lavoro è delegato alla rete neurale.
+Ricevendo in input l'insieme delle finestre dei record cerca di ipotizzare un risultato utilizzando 
+il modello selezionato. Terminati i calcoli fornisce in output l'insieme delle etichette ipotizzate.
+Il risultato ottenuto è quindi un insieme di etichette, ognuna associata ad una precisa finestra. 
 
 \begin{figure}[H]
     \centering
