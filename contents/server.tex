@@ -1,6 +1,6 @@
 \chapter{Server}
 Il passaggio principale che ho dovuto affrontare per l'inizio del progetto è stata l'inizializzazione
-di un server che potesse gestire lo scambio di informazioni con l'applicazione ed occuparsi di svolgere tutti i compiti del caso.
+di un server che potesse gestire lo scambio di informazioni con l'applicazione ed occuparsi di tutti i compiti del caso.
 
 Il lavoro del server è facilmente scomponibile in due parti, la gestione dei dati utili per la classificazione 
 (che sarà poi affrontata nel capitolo \ref{chapter:classification}) e l'erogazione di dati informativi che vedremo consentire
@@ -10,7 +10,7 @@ Si è scelto di sviluppare il tutto con il linguaggio Python e di inserire per c
 mantenere differenziate queste due parti anche a livello di programmazione.
 
 \subsubsection{Docker}
-Docker \cite{docker} è un progetto open-source in grado di effettuare il deploy di applicazioni all'interno di contenitori software che grazie alla
+Docker \cite{docker} è un progetto open source in grado di effettuare il deploy di applicazioni all'interno di contenitori software che grazie alla
 virtualizzazione si trovano ad un livello di astrazione differente dal sistema host. Questa tecnica è molto utile quando si vuole
 mantenere separati l'installazione di un applicativo dal sistema ospitante.
 

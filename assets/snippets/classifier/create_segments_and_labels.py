@@ -22,12 +22,11 @@ def __create_segments_and_labels(self, df, label_name):
         segments.append([xs, ys, zs, ts])
 
         # Create labels
-        if label_name:
-            current_labels = df[label_name][i: i + SEGMENT_WIDTH]
-            # Retrieve the most often used label in this segment
-            label = stats.mode(current_labels)[0][0]
-            # and then
-            labels.append(label)
+        current_labels = df[label_name][i: i + SEGMENT_WIDTH]
+        # Retrieve the most often used label in this segment
+        label = stats.mode(current_labels)[0][0]
+        # and then
+        labels.append(label)
 
     # Bring the segments into a better shape
     reshaped_segments 

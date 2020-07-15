@@ -15,7 +15,7 @@
             "id": 1,
             "activity": "run",
             "translations": {"en": "Run", "it": "Corsa"},
-            "time": 60,
+            "time": 30,
             "sensors": [
                 {"sensor": "accelerometer", "enabled": true},
                 {"sensor": "gyroscope", "enabled": true}
@@ -25,7 +25,7 @@
             "id": 2,
             "activity": "jumps",
             "translations": {"en": "Jumps", "it": "Salti"},
-            "time": 60,
+            "time": 20,
             "sensors": [
                 {"sensor": "accelerometer", "enabled": true},
                 {"sensor": "gyroscope", "enabled": true}

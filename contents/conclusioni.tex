@@ -3,13 +3,13 @@ Al termine dello sviluppo si è riusciti ad ottenere un classificatore di ADLs i
 
 \vspace{5mm} %5mm vertical space
 
-Prendendo in considerazione le sole 3 attività scelte per la classificazione (camminata, corsa e salti) su cui abbiamo testato il riconoscimento 
+Prendendo in considerazione le sole 3 attività scelte per la classificazione (camminata, corsa e salti) su cui abbiamo effettuato i test 
 e la partizione di cui abbiamo mostrato i risultati grafici durante la trattazione, siamo riusciti ad ottenere un buon riconoscimento 
-delle attività con \textit{solamente} poco più di 250 mila record di dati.
+delle attività con circa 1 milione di record per sensore.
 
 \vspace{5mm} %5mm vertical space
 
-L'aggiunta di ulteriori attività comporterebbe logicamente l'esigenza di incrementare le informazioni di apprendimento per mantenere 
+L'aggiunta di ulteriori attività comporterebbe logicamente l'esigenza di incrementare le informazioni di apprendimento in modo da mantenere 
 invariata l'accuratezza del riconoscimento. Reputo entrambi questi passaggi fondamentali per l'utilizzo del 
 classificatore nel mondo reale, oltre che per il riconoscimento di una quantità maggiore di ADLs.
 
@@ -28,7 +28,7 @@ anche in un secondo momento. La fase di riconoscimento invece potrebbe avvenire 
 l'utilizzo di Tensorflow Lite \cite{tensorflow_lite} e dei modelli pre-allenati scaricati dal server in precedenza.
 
 \vspace{5mm} %5mm vertical space
-Con questa ottimizzazione il server continuerà ad avere una funzione chiave nell'intero sistema (l'aggregazione dei dati, la 
+Con questa ottimizzazione il server continua ad avere una funzione chiave nell'intero sistema (l'aggregazione dei dati, la 
 generazione dei modelli e la conversione degli stessi nel formato adatto), ma si perde la necessità di avere un collegamento costante.
 
 \begin{figure}[H]
@@ -55,6 +55,8 @@ che sta eseguendo l'attività.
 \vspace{5mm} %5mm vertical space
 
 Una terza ottimizzazione possibile sarebbe quella di richiedere all'utente, tramite il modulo già sviluppato, maggiori 
-informazioni riguardo la sua fisicità ed assegnare a queste un peso nella classificazione.
+informazioni riguardo la sua fisicità ed assegnare a queste un peso nella classificazione. Si immagina, per esempio, l'altezza 
+dell'individuo, il suo peso, oppure informazioni ancor più dettagliate.
+
 Dato che in alcune attività le caratteristiche fisiche potrebbero avere un rilievo, un miglioramento del genere porterebbe ad 
 ottenere una maggior accuratezza dei risultati.

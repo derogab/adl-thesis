@@ -13,4 +13,3 @@ try {
 catch (Exception e) {
     Log.e(TAG, "Error: " + e);
 }
-

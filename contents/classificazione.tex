@@ -6,7 +6,7 @@ Il cuore del progetto riguarda la classificazione delle attività mediante i dat
 Ho optato per l'utilizzo di Keras per l'implementazione della rete neurale di cui vediamo le 
 fasi di \textit{training} e di \textit{prediction}.
 \subsubsection{Keras}
-Keras \cite{keras} è una libreria open-source per le reti neurali che astrae lo sviluppo rendendolo più comprensibile, 
+Keras \cite{keras} è una libreria open source per le reti neurali che astrae lo sviluppo rendendolo più comprensibile, 
 pur mantenendo pieno supporto alle librerie di più basso livello (es. Tensorflow \cite{tensorflow}) su cui si basa.
 
 
@@ -133,7 +133,8 @@ Nei file CSV però questa informazione è data sotto forma di \textit{timestamp}
 ovvero il momento esatto di svolgimento dell'attività durante la raccolta dei dati.
 Questo valore non è in alcun modo rilevante nella classificazione, ma a partire da esso è possibile ricavare il tempo trascorso 
 tra l'acquisizione di una tripla di dati (x, y, z) e l'acquisizione di quella immediatamente successiva.
-Posso presumere una somiglianza in tali distanze temporali durante lo svolgimento di una uguale attività.
+Posso presumere una somiglianza in tali distanze temporali, associate poi alle rispettive triple, durante lo 
+svolgimento di una uguale attività.
 
 \subsubsection{Normalizzazione dei dati}
 La rete neurale accetta in ingresso valori compresi tra 0 e 1. Eseguo quindi anche una semplice normalizzazione delle quattro caratteristiche.
@@ -205,7 +206,7 @@ Una volta generati i dati nel formato supportato da \textit{keras} procedo alla 
 una rete neurale che abbia:
 \begin{itemize}
     \item in input il formato dei dati appena generato
-    \item 5 strati di 100 nodi connessi
+    \item 4 strati di 100 nodi connessi
     \item in output il calcolo di probabilità per ogni classe
 \end{itemize}
 \begin{listing}[H] 
@@ -295,12 +296,13 @@ Si attuano in questa fase le stesse procedure viste in precedenza nella corrispo
 \ref{section:learning-data-preparation} di apprendimento.
 
 \subsubsection{Operazioni preliminari}
-Per prima cosa si attua la trasformazione del valore temporale dal significato assoluto a quello relativo.
+Per prima cosa si attua la trasformazione del valore temporale dal significato assoluto a quello relativo di 
+\textit{distanza dal precedente}.
 Ed in seguito si normalizzano le 4 caratteristiche.
 
 
 \subsubsection{Creazione delle finestre}
-L'insieme dei record è nuovamente preso a gruppi, anche sovrapposti, per la creazione delle finestre contenenti i 
+L'insieme dei record è nuovamente preso a gruppi, come prima, per la creazione delle finestre contenenti i 
 record con le sole caratteristiche.
 
 \vfill
