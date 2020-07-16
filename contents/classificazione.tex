@@ -62,8 +62,8 @@ Dopo una prima valutazione che prevedeva l'utilizzo di questo dato come una semp
 di dare ad esso un'importanza maggiore. 
 
 Il maggior valore è derivato dalla decisione di partizionare nuovamente i record presenti nel dataset in base alla relativa posizione. 
-Tale scelta comporta la necessità di eseguire le procedure di \textit{train} e \textit{test} seguenti su tutte 
-le diverse partizioni e conseguentemente la creazione di un modello indipendente per ognuna di esse.
+Tale scelta comporta la necessità di eseguire le seguenti procedure di \textit{train} e \textit{test} su tutte 
+le diverse partizioni e la conseguente generazione di un modello indipendente per ognuna di esse.
 
 \vspace{5mm} %5mm vertical space
 
@@ -184,7 +184,7 @@ campionamento dei sensori di $f_c = 20$ Hz e il relativo periodo di campionament
 $$T_{finestra} = 0.5s * 80 = 4s$$
 
 \subsubsection{Sovrapposizione delle finestre}
-Per evitare che la divisione in finestre separi a metà dei record adiacenti che sarebbero stati associati 
+Per evitare che la divisione in finestre separi dei record adiacenti, che altrimenti sarebbero stati associati 
 ad una singola etichetta, si ricorre spesso alla sovrapposizione (\textit{overlap}).
 
 Durante la lettura di tutti i record da convertire, la finestra scorre in avanti 
@@ -222,7 +222,7 @@ Per poi procedere all'apprendimento.
 
 \newpage
 \subsection{Statistiche del modello}
-Al termine dell'attività di apprendimento il modello è stato generato. Ed è possibile vedere un grafico 
+Al termine dell'attività di apprendimento il modello è stato generato ed è possibile vedere un grafico 
 riassuntivo dei risultati ottenuti.
 \begin{figure}[H]
     \centering
@@ -297,8 +297,8 @@ Si attuano in questa fase le stesse procedure viste in precedenza nella corrispo
 
 \subsubsection{Operazioni preliminari}
 Per prima cosa si attua la trasformazione del valore temporale dal significato assoluto a quello relativo di 
-\textit{distanza dal precedente}.
-Ed in seguito si normalizzano le 4 caratteristiche.
+\textit{distanza dal precedente}
+e, in seguito, si normalizzano le 4 caratteristiche.
 
 
 \subsubsection{Creazione delle finestre}

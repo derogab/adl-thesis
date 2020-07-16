@@ -82,7 +82,7 @@ Ogni informazione raccolta è inserita in un messaggio simile a quello visto
 nell'esempio \ref{listing:example-message-learning} e subito inviata.
 
 \subsubsection{Fase 4: Predizione}
-Durante la fase di analisi, e ininterrottamente fino allo stop dell'utente, il processo resta in ascolto in attesa di 
+Durante la fase di analisi, e ininterrottamente fino allo stop dell'utente, il processo resta in ascolto, in attesa di 
 messaggi di risposta dal server.
 La maggioranza delle risposte sono messaggi di conferma di avvenuta ricezione delle informazioni e messaggi contenenti 
 le ipotesi stipulate dal classificatore sull'attività in corso di esecuzione.
@@ -113,12 +113,12 @@ aggiunta l'attività selezionata manualmente dall'utente.
 In questa fase è data piena fiducia all'utilizzatore sulla correttezza dei dati inseriti e sull'attività svolta.
 
 \subsubsection{Fase 1: Inizializzazione}
-In una prima fase l'applicazione richiede in autonomia alle API le informazioni di cui necessita. Si cercano
+In una prima fase l'applicazione richiede in autonomia alle API le informazioni di cui necessita. Si cercano:
 \begin{itemize}
     \item le informazioni relative alle posizioni del dispositivo selezionabili
     \item la lista di attività addestrabili e il tempo necessario per il loro apprendimento
 \end{itemize}
-È immediato ottenere tali informazioni mediante richieste ai due endpoint relativi, i cui esempi di risposta sono mostrati nei codici 
+È immediato ottenere tali informazioni mediante richieste ai due endpoints relativi, i cui esempi di risposta sono mostrati nei codici 
 \ref{listing:response-activities} e \ref{listing:response-positions}.
 Una volta ricevute le risposte l'utente ha la possibilità di selezionare: 
 \begin{itemize}
@@ -131,8 +131,8 @@ In seguito a queste scelte l'apprendimento può essere avviato.
 Anche in questo frangente sarà inizializzato un servizio in foreground \cite{services} che si occuperà di svolgere 
 tutte le azioni necessarie per le fasi seguenti e la UI continuerà ad essere aggiornata con le informazioni ricevute da esso.
 
-Nuovamente come prima cosa viene contattato il server per stabilire una connessione TCP ed una volta ricevuta risposta affermativa
-sarà avviato il conto alla rovescia utile come \textit{tempo di preparazione}.
+Nuovamente, come prima cosa, viene contattato il server per stabilire una connessione TCP. 
+In seguito alla ricezione di una risposta affermativa sarà avviato il conto alla rovescia utile come \textit{tempo di preparazione}.
 
 \subsubsection{Fase 3: Apprendimento}
 Allo scadere del tempo sono avviati in parallelo un ulteriore countdown e tutti i sensori per la raccolta dei dati.
@@ -280,7 +280,7 @@ callback con l'opportuna gestione dei dati inerziali ottenuti.
 
 \subsubsection{Callback}
 Una callback è una specifica funzione richiamata dal sistema operativo al verificarsi di un determinato evento.
-Consente di implementare una gestione personalizzata dell'evento che l'ha invocata.
+Il suo scopo è quello di consentire l'implementazione di una gestione personalizzata dell'evento che l'ha invocata.
 \vfill
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/sensors.java}
@@ -317,14 +317,14 @@ richiamato il metodo per l'invio dei messaggi.
 \newpage
 \subsubsection{Ricezione di un messaggio}
 La ricezione delle risposte da parte del server avviene invece banalmente rimanendo in ascolto 
-dei messaggi in ricezione.
+dei messaggi in arrivo.
 \begin{listing}[H] 
     \inputminted[frame=single,framesep=10pt]{java}{assets/snippets/app/connection/receive.java}
     \caption{Implementazione della ricezione di un messaggio}
 \end{listing}
 \vspace{5mm} %5mm vertical space
 \noindent Ogni messaggio ricevuto viene elaborato in base alla tipologia. Alcuni di essi rappresentano solo una conferma di avvenuta 
-connessione o di corretta ricezione dei messaggi inviati. Altri contengono informazioni da mostrare direttamente all'utente.
+connessione o di corretta ricezione dei messaggi inviati, mentre altri contengono informazioni da mostrare direttamente all'utente.
 
 \vspace{5mm} %5mm vertical space
 In precedenza, nel codice \ref{listing:example-message-prediction}, abbiamo visto uno dei messaggi inviati dal \textit{modulo di comunicazione} come risposta. 
